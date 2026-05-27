@@ -1,0 +1,219 @@
+📄 carrito.html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito - CollectZone</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><i class="fas fa-gem me-2"></i>CollectZone</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="border-color: rgba(255,255,255,0.3);">
+                <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="articulos.html">Articulos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ranking.html">Ranking</a></li>
+                    <li class="nav-item" id="publicarBtn" style="display:none;"><a class="nav-link" href="crear-articulo.html">Publicar</a></li>
+                    <li class="nav-item" id="misArticulosBtn" style="display:none;"><a class="nav-link" href="mis-articulos.html">Mis Articulos</a></li>
+                    <li class="nav-item" id="favoritosBtn" style="display:none;"><a class="nav-link" href="favoritos.html"><i class="fas fa-heart me-1"></i></a></li>
+                    <li class="nav-item" id="carritoBtn" style="display:none;">
+                        <a class="nav-link active" href="carrito.html" style="position:relative;">
+                            <i class="fas fa-shopping-cart me-1"></i>
+                            <span id="carritoCount" class="badge rounded-pill" style="background:var(--accent); color:white; font-size:0.6rem; position:absolute; top:0; right:-8px; display:none;">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" id="intercambiosBtn" style="display:none;"><a class="nav-link" href="intercambios.html"><i class="fas fa-exchange-alt me-1"></i></a></li>
+                    <li class="nav-item" id="adminBtn" style="display:none;"><a class="nav-link" href="admin.html"><i class="fas fa-shield-halved me-1"></i>Admin</a></li>
+                    <li class="nav-item" id="loginBtn"><a class="nav-link" href="login.html">Iniciar Sesion</a></li>
+                    <li class="nav-item" id="registerBtn"><a class="nav-link" href="registro.html">Registrarse</a></li>
+                    <li class="nav-item" id="userInfo" style="display:none;">
+                        <span class="nav-link" style="color: var(--accent);"><i class="fas fa-user-circle me-1"></i><span id="userName"></span></span>
+                    </li>
+                    <li class="nav-item" id="logoutBtn" style="display:none;">
+                        <a class="nav-link" href="#" onclick="cerrarSesion()" style="color: rgba(255,255,255,0.6);"><i class="fas fa-sign-out-alt me-1"></i>Salir</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section style="background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 50px 0; position:relative; overflow:hidden;">
+        <div style="position:absolute; inset:0; background-image: var(--web-pattern); background-size: 60px 60px; opacity:0.3;"></div>
+        <div class="container position-relative">
+            <div class="hero-line"></div>
+            <h1 style="color:white; font-weight:900;"><i class="fas fa-shopping-cart me-2" style="color:var(--accent);"></i>Tu <span style="color:var(--accent);">Carrito</span></h1>
+            <p style="color:rgba(255,255,255,0.7); margin:0;">Revisa y finaliza tu compra</p>
+        </div>
+    </section>
+
+    <!-- CONTENIDO -->
+    <div class="container my-4">
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div id="carritoItems"></div>
+            </div>
+            <div class="col-lg-4">
+                <div id="resumenCompra" class="auth-card" style="position:sticky; top:20px;">
+                    <h5 class="fw-bold mb-3"><i class="fas fa-receipt me-2" style="color:var(--accent);"></i>Resumen</h5>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Articulos:</span>
+                        <strong id="totalItems">0</strong>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Subtotal:</span>
+                        <strong id="subtotal">0.00 EUR</strong>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Envio:</span>
+                        <strong style="color:var(--success);">Gratis</strong>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="fw-bold">Total:</span>
+                        <strong style="color:var(--accent); font-size:1.5rem;" id="total">0.00 EUR</strong>
+                    </div>
+                    <button onclick="finalizarCompra()" class="btn-accent w-100" id="btnCheckout"><i class="fas fa-check-circle me-2"></i>Finalizar compra</button>
+                    <a href="articulos.html" class="btn-outline-spider w-100 mt-2 text-center d-block text-decoration-none"><i class="fas fa-arrow-left me-1"></i>Seguir comprando</a>
+                </div>
+
+                <!-- HISTORIAL -->
+                <div class="mt-4">
+                    <h6 class="fw-bold mb-3"><i class="fas fa-clock-rotate-left me-2" style="color:var(--accent);"></i>Compras anteriores</h6>
+                    <div id="historialContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <p class="mb-0"><i class="fas fa-gem me-2"></i>CollectZone 2025 - Proyecto DAW</p>
+                <div class="d-flex gap-3">
+                    <a href="index.html" class="small">Inicio</a>
+                    <a href="articulos.html" class="small">Articulos</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const usuario = getUsuarioActual();
+            if (!usuario) { window.location.href = "login.html"; return; }
+            await cargarCarrito();
+            await cargarHistorial();
+        });
+
+        async function cargarCarrito() {
+            const usuario = getUsuarioActual();
+            try {
+                const items = await CarritoAPI.obtener(usuario.id);
+                const cont = document.getElementById("carritoItems");
+
+                if (!items || items.length === 0) {
+                    cont.innerHTML = `
+                        <div class="text-center py-5 auth-card">
+                            <i class="fas fa-shopping-cart" style="font-size:4rem; color:var(--gray); opacity:0.3;"></i>
+                            <h4 class="mt-3 text-muted">Tu carrito esta vacio</h4>
+                            <p class="text-muted">Explora articulos y anade tus favoritos</p>
+                            <a href="articulos.html" class="btn-accent"><i class="fas fa-search me-2"></i>Explorar</a>
+                        </div>`;
+                    document.getElementById("btnCheckout").disabled = true;
+                    document.getElementById("btnCheckout").style.opacity = "0.5";
+                    return;
+                }
+
+                let subtotal = 0;
+                cont.innerHTML = items.map(item => {
+                    const a = item.articulo || item;
+                    subtotal += parseFloat(a.precio || 0);
+                    return `
+                        <div class="auth-card mb-3 fade-in">
+                            <div class="row g-3 align-items-center">
+                                <div class="col-md-3">
+                                    <img src="${a.imagenUrl || 'https://via.placeholder.com/150'}" class="img-fluid" style="border-radius:10px;" alt="${a.nombre}">
+                                </div>
+                                <div class="col-md-6">
+                                    <span class="badge-categoria mb-2 d-inline-block">${a.categoria}</span>
+                                    <h5 class="mb-1">${a.nombre}</h5>
+                                    <small class="text-muted">Vendedor: ${a.usuario?.nombre || 'Desconocido'}</small>
+                                </div>
+                                <div class="col-md-3 text-end">
+                                    <div style="color:var(--accent); font-weight:900; font-size:1.5rem;">${a.precio} EUR</div>
+                                    <button onclick="quitarDelCarrito(${a.id})" class="btn btn-sm btn-outline-danger mt-2"><i class="fas fa-trash me-1"></i>Quitar</button>
+                                </div>
+                            </div>
+                        </div>`;
+                }).join("");
+
+                document.getElementById("totalItems").textContent = items.length;
+                document.getElementById("subtotal").textContent = subtotal.toFixed(2) + " EUR";
+                document.getElementById("total").textContent = subtotal.toFixed(2) + " EUR";
+            } catch(e) { console.error(e); }
+        }
+
+        async function cargarHistorial() {
+            const usuario = getUsuarioActual();
+            try {
+                const historial = await CarritoAPI.historial(usuario.id);
+                const cont = document.getElementById("historialContainer");
+                if (!historial || historial.length === 0) {
+                    cont.innerHTML = '<p class="text-muted small">Aun no tienes compras.</p>';
+                    return;
+                }
+                cont.innerHTML = historial.slice(-5).reverse().map(c => {
+                    const a = c.articulo || {};
+                    const fecha = c.fechaCompra ? new Date(c.fechaCompra).toLocaleDateString('es-ES') : '-';
+                    return `
+                        <div class="d-flex gap-2 align-items-center mb-2 p-2" style="background:var(--light); border-radius:8px;">
+                            <img src="${a.imagenUrl || 'https://via.placeholder.com/50'}" style="width:45px; height:45px; border-radius:6px; object-fit:cover;">
+                            <div class="flex-grow-1">
+                                <small class="fw-bold d-block">${a.nombre || 'Articulo'}</small>
+                                <small class="text-muted">${fecha} - ${c.precioCompra || a.precio} EUR</small>
+                            </div>
+                        </div>`;
+                }).join("");
+            } catch(e) { console.error(e); }
+        }
+
+        async function quitarDelCarrito(articuloId) {
+            const usuario = getUsuarioActual();
+            try {
+                await CarritoAPI.eliminar(usuario.id, articuloId);
+                await cargarCarrito();
+                await actualizarContadorCarrito();
+            } catch(e) { alert("Error al quitar"); }
+        }
+
+        async function finalizarCompra() {
+            const usuario = getUsuarioActual();
+            if (!confirm("Finalizar compra? Los articulos se marcaran como vendidos.")) return;
+            try {
+                await CarritoAPI.checkout(usuario.id);
+                alert("Compra realizada con exito!");
+                await cargarCarrito();
+                await cargarHistorial();
+                await actualizarContadorCarrito();
+            } catch(e) {
+                alert("Error al procesar la compra: " + (e.message || ""));
+            }
+        }
+    </script>
+</body>
+</html>

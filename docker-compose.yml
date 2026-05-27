@@ -1,0 +1,53 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: collectzone_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: collectzone
+      MYSQL_USER: czuser
+      MYSQL_PASSWORD: czpassword
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+  backend:
+    build:
+      context: ./collectzone-backend/collectzone
+      dockerfile: Dockerfile
+    container_name: collectzone_backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/collectzone?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: czuser
+      SPRING_DATASOURCE_PASSWORD: czpassword
+      SPRING_PROFILES_ACTIVE: prod
+      JWT_SECRET: clave-secreta-local-muy-larga-para-desarrollo-collectzone-2024
+      JWT_EXPIRATION: 86400000
+      MAIL_USERNAME: salazarangel109@gmail.com
+      MAIL_PASSWORD: ujykzueobldlbcpa
+      CORS_ALLOWED_ORIGINS: http://localhost
+    ports:
+      - "8080:8080"
+  frontend:
+    build:
+      context: ./collectzone-frontend
+      dockerfile: Dockerfile
+    container_name: collectzone_frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+volumes:
+  db_data:

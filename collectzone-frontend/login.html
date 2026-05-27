@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesion - CollectZone</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="index.html" id="navbarLogo"><i class="fas fa-gem me-2"></i>CollectZone</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="border-color: rgba(255,255,255,0.3);">
+                <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="articulos.html">Articulos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ranking.html">Ranking</a></li>
+                    <li class="nav-item" id="publicarBtn" style="display:none;"><a class="nav-link" href="crear-articulo.html">Publicar</a></li>
+                    <li class="nav-item" id="misArticulosBtn" style="display:none;"><a class="nav-link" href="mis-articulos.html">Mis Articulos</a></li>
+                    <li class="nav-item" id="favoritosBtn" style="display:none;"><a class="nav-link" href="favoritos.html"><i class="fas fa-heart me-1"></i></a></li>
+                    <li class="nav-item" id="carritoBtn" style="display:none;">
+                        <a class="nav-link" href="carrito.html" style="position:relative;">
+                            <i class="fas fa-shopping-cart me-1"></i>
+                            <span id="carritoCount" class="badge rounded-pill" style="background:var(--accent); color:white; font-size:0.6rem; position:absolute; top:0; right:-8px; display:none;">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" id="intercambiosBtn" style="display:none;"><a class="nav-link" href="intercambios.html"><i class="fas fa-exchange-alt me-1"></i></a></li>
+                    <li class="nav-item" id="adminBtn" style="display:none;"><a class="nav-link" href="admin.html"><i class="fas fa-shield-halved me-1"></i>Admin</a></li>
+                    <li class="nav-item" id="loginBtn"><a class="nav-link active" href="login.html">Iniciar Sesion</a></li>
+                    <li class="nav-item" id="registerBtn"><a class="nav-link" href="registro.html">Registrarse</a></li>
+                    <li class="nav-item" id="userInfo" style="display:none;">
+                        <span class="nav-link" style="color: var(--accent);"><i class="fas fa-user-circle me-1"></i><span id="userName"></span></span>
+                    </li>
+                    <li class="nav-item" id="logoutBtn" style="display:none;">
+                        <a class="nav-link" href="#" onclick="cerrarSesion()" style="color: rgba(255,255,255,0.6);"><i class="fas fa-sign-out-alt me-1"></i>Salir</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO AUTH -->
+    <section style="background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 60px 0 100px; position:relative; overflow:hidden;">
+        <div style="position:absolute; inset:0; background-image: var(--web-pattern); background-size: 60px 60px; opacity:0.3;"></div>
+        <div class="container position-relative text-center">
+            <div class="hero-line mx-auto"></div>
+            <h1 style="color:white; font-size:2.5rem; font-weight:900;">Bienvenido de <span style="color:var(--accent);">vuelta</span></h1>
+            <p style="color:rgba(255,255,255,0.7);">Accede a tu cuenta y sigue coleccionando</p>
+        </div>
+    </section>
+
+    <!-- FORMULARIO -->
+    <section class="py-5" style="margin-top:-60px; position:relative; z-index:2;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-5">
+                    <div class="auth-card fade-in">
+                        <div class="text-center mb-4">
+                            <div style="width:70px; height:70px; border-radius:50%; background:var(--accent-light); display:flex; align-items:center; justify-content:center; margin:0 auto 15px;">
+                                <i class="fas fa-user-shield fa-2x" style="color:var(--accent);"></i>
+                            </div>
+                            <h3 class="fw-bold" style="color:var(--primary);">Iniciar Sesion</h3>
+                            <p class="text-muted small mb-0">Introduce tus credenciales</p>
+                        </div>
+                        <form id="loginForm">
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold"><i class="fas fa-envelope me-1" style="color:var(--accent);"></i>Email</label>
+                                <input type="email" id="email" class="form-control" placeholder="tu@email.com" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold"><i class="fas fa-lock me-1" style="color:var(--accent);"></i>Contrasena</label>
+                                <input type="password" id="password" class="form-control" placeholder="Tu contrasena" required>
+                            </div>
+                            <div id="errorMsg" class="alert alert-danger d-flex align-items-center" style="display:none !important;">
+                                <i class="fas fa-exclamation-circle me-2"></i><span></span>
+                            </div>
+                            <button type="submit" class="btn-accent w-100 mb-3"><i class="fas fa-sign-in-alt me-2"></i>Entrar</button>
+                        </form>
+                        <hr>
+                        <p class="text-center mb-0 small">
+                            Aun no tienes cuenta?
+                            <a href="registro.html" style="color:var(--accent); font-weight:600;">Registrate gratis</a>
+                        </p>
+                    </div>
+
+                    <!-- PANEL DEMO OCULTO (se muestra con Ctrl+Shift+D o triple-click en el logo) -->
+                    <div id="demoPanel" class="alert alert-info mt-3 small" style="border-radius:12px; display:none;">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <strong><i class="fas fa-key me-1"></i>Credenciales demo (modo desarrollo)</strong><br>
+                                <span class="d-inline-block mt-2">
+                                    <i class="fas fa-shield-halved me-1" style="color:var(--accent);"></i>
+                                    Admin: <code id="demoAdminEmail">root@collectzone.com</code> /
+                                    <code id="demoAdminPass">root</code>
+                                    <button type="button" class="btn btn-sm btn-link p-0 ms-1" onclick="rellenarDemo('admin')" title="Rellenar"><i class="fas fa-arrow-right-to-bracket"></i></button>
+                                </span><br>
+                                <span class="d-inline-block mt-1">
+                                    <i class="fas fa-user me-1" style="color:var(--accent);"></i>
+                                    User: <code id="demoUserEmail">laura@collectzone.com</code> /
+                                    <code id="demoUserPass">123456</code>
+                                    <button type="button" class="btn btn-sm btn-link p-0 ms-1" onclick="rellenarDemo('user')" title="Rellenar"><i class="fas fa-arrow-right-to-bracket"></i></button>
+                                </span>
+                            </div>
+                            <button type="button" class="btn-close btn-close-sm" aria-label="Cerrar" onclick="toggleDemoPanel(false)"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <p class="mb-0"><i class="fas fa-gem me-2"></i>CollectZone 2025 - Proyecto DAW</p>
+                <div class="d-flex gap-3">
+                    <a href="index.html" class="small">Inicio</a>
+                    <a href="articulos.html" class="small">Articulos</a>
+                    <a href="registro.html" class="small">Registrarse</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        // Auto-redirect si ya esta logueado
+        if (getUsuarioActual()) {
+            window.location.href = "index.html";
+        }
+
+        // ===== PANEL DEMO OCULTO =====
+        function toggleDemoPanel(forceState) {
+            const panel = document.getElementById("demoPanel");
+            const visible = panel.style.display !== "none";
+            const show = (typeof forceState === "boolean") ? forceState : !visible;
+            panel.style.display = show ? "block" : "none";
+        }
+
+        function rellenarDemo(tipo) {
+            if (tipo === "admin") {
+                document.getElementById("email").value = document.getElementById("demoAdminEmail").textContent;
+                document.getElementById("password").value = document.getElementById("demoAdminPass").textContent;
+            } else {
+                document.getElementById("email").value = document.getElementById("demoUserEmail").textContent;
+                document.getElementById("password").value = document.getElementById("demoUserPass").textContent;
+            }
+        }
+
+        // Truco 1: Ctrl + Shift + D
+        document.addEventListener("keydown", (e) => {
+            if (e.ctrlKey && e.shiftKey && (e.key === "D" || e.key === "d")) {
+                e.preventDefault();
+                toggleDemoPanel();
+            }
+        });
+
+        // Truco 2: triple-click en el logo "CollectZone" de la navbar
+        let clickCount = 0;
+        let clickTimer = null;
+        const logo = document.getElementById("navbarLogo");
+        if (logo) {
+            logo.addEventListener("click", (e) => {
+                clickCount++;
+                if (clickCount === 3) {
+                    e.preventDefault();
+                    toggleDemoPanel();
+                    clickCount = 0;
+                }
+                clearTimeout(clickTimer);
+                clickTimer = setTimeout(() => { clickCount = 0; }, 600);
+            });
+        }
+
+        // ===== LOGIN =====
+        document.getElementById("loginForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const errorBox = document.getElementById("errorMsg");
+            const errorSpan = errorBox.querySelector("span");
+            errorBox.style.display = "none";
+            try {
+                const res = await AuthAPI.login(email, password);
+                if (res && res.token) {
+                    localStorage.setItem("token", res.token);
+                    localStorage.setItem("usuario", JSON.stringify(res.usuario));
+                    window.location.href = "index.html";
+                } else {
+                    errorSpan.textContent = res.mensaje || "Credenciales incorrectas";
+                    errorBox.style.display = "flex";
+                }
+            } catch(err) {
+                errorSpan.textContent = err.message || "Error al iniciar sesion. Verifica tus datos.";
+                errorBox.style.display = "flex";
+            }
+        });
+    </script>
+</body>
+</html>

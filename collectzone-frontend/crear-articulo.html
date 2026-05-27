@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicar Articulo - CollectZone</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><i class="fas fa-gem me-2"></i>CollectZone</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="border-color: rgba(255,255,255,0.3);">
+                <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="articulos.html">Articulos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ranking.html">Ranking</a></li>
+                    <li class="nav-item" id="publicarBtn"><a class="nav-link active" href="crear-articulo.html">Publicar</a></li>
+                    <li class="nav-item" id="misArticulosBtn" style="display:none;"><a class="nav-link" href="mis-articulos.html">Mis Articulos</a></li>
+                    <li class="nav-item" id="favoritosBtn" style="display:none;"><a class="nav-link" href="favoritos.html"><i class="fas fa-heart me-1"></i></a></li>
+                    <li class="nav-item" id="carritoBtn" style="display:none;">
+                        <a class="nav-link" href="carrito.html" style="position:relative;">
+                            <i class="fas fa-shopping-cart me-1"></i>
+                            <span id="carritoCount" class="badge rounded-pill" style="background:var(--accent); color:white; font-size:0.6rem; position:absolute; top:0; right:-8px; display:none;">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" id="intercambiosBtn" style="display:none;"><a class="nav-link" href="intercambios.html"><i class="fas fa-exchange-alt me-1"></i></a></li>
+                    <li class="nav-item" id="adminBtn" style="display:none;"><a class="nav-link" href="admin.html"><i class="fas fa-shield-halved me-1"></i>Admin</a></li>
+                    <li class="nav-item" id="loginBtn"><a class="nav-link" href="login.html">Iniciar Sesion</a></li>
+                    <li class="nav-item" id="registerBtn"><a class="nav-link" href="registro.html">Registrarse</a></li>
+                    <li class="nav-item" id="userInfo" style="display:none;">
+                        <span class="nav-link" style="color: var(--accent);"><i class="fas fa-user-circle me-1"></i><span id="userName"></span></span>
+                    </li>
+                    <li class="nav-item" id="logoutBtn" style="display:none;">
+                        <a class="nav-link" href="#" onclick="cerrarSesion()" style="color: rgba(255,255,255,0.6);"><i class="fas fa-sign-out-alt me-1"></i>Salir</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section style="background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 50px 0 90px; position:relative; overflow:hidden;">
+        <div style="position:absolute; inset:0; background-image: var(--web-pattern); background-size: 60px 60px; opacity:0.3;"></div>
+        <div class="container position-relative">
+            <div class="hero-line"></div>
+            <h1 style="color:white; font-size:2.3rem; font-weight:900;"><i class="fas fa-plus-circle me-2" style="color:var(--accent);"></i>Publicar <span style="color:var(--accent);">articulo</span></h1>
+            <p style="color:rgba(255,255,255,0.7);">Comparte tu coleccionable con la comunidad</p>
+        </div>
+    </section>
+
+    <!-- FORM -->
+    <section class="py-5" style="margin-top:-60px; position:relative; z-index:2;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="auth-card fade-in">
+                        <form id="crearForm">
+                            <div class="row g-3">
+                                <div class="col-md-8">
+                                    <label class="form-label fw-semibold"><i class="fas fa-tag me-1" style="color:var(--accent);"></i>Nombre del articulo *</label>
+                                    <input type="text" id="nombre" class="form-control" placeholder="Ej: Carta Pokemon Charizard 1999" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold"><i class="fas fa-euro-sign me-1" style="color:var(--gold);"></i>Precio *</label>
+                                    <input type="number" id="precio" class="form-control" step="0.01" min="0" placeholder="0.00" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold"><i class="fas fa-folder me-1" style="color:var(--blue);"></i>Categoria *</label>
+                                    <select id="categoria" class="form-select" required>
+                                        <option value="">Selecciona una categoria</option>
+                                        <option value="CARTAS">Cartas</option>
+                                        <option value="MONEDAS">Monedas</option>
+                                        <option value="FIGURAS">Figuras</option>
+                                        <option value="SELLOS">Sellos</option>
+                                        <option value="OTROS">Otros</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold"><i class="fas fa-circle-check me-1" style="color:var(--success);"></i>Estado *</label>
+                                    <select id="estado" class="form-select" required>
+                                        <option value="DISPONIBLE">Disponible para venta</option>
+                                        <option value="INTERCAMBIO">Solo intercambio</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold"><i class="fas fa-image me-1" style="color:var(--accent);"></i>URL de imagen</label>
+                                    <input type="url" id="imagenUrl" class="form-control" placeholder="https://..." oninput="previsualizarImagen()">
+                                    <small class="text-muted"><i class="fas fa-info-circle me-1"></i>Pega un enlace a una imagen. Si no tienes, se usara una generica.</small>
+                                </div>
+                                <div class="col-12" id="previewBox" style="display:none;">
+                                    <label class="form-label fw-semibold">Previsualizacion:</label>
+                                    <div class="text-center">
+                                        <img id="imgPreview" src="" style="max-height:200px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold"><i class="fas fa-align-left me-1" style="color:var(--accent);"></i>Descripcion *</label>
+                                    <textarea id="descripcion" class="form-control" rows="5" placeholder="Describe tu articulo: estado, antiguedad, particularidades..." required minlength="10"></textarea>
+                                    <small class="text-muted">Minimo 10 caracteres</small>
+                                </div>
+                            </div>
+
+                            <div id="errorMsg" class="alert alert-danger d-flex align-items-center mt-3" style="display:none !important;"><i class="fas fa-exclamation-circle me-2"></i><span></span></div>
+                            <div id="okMsg" class="alert alert-success d-flex align-items-center mt-3" style="display:none !important;"><i class="fas fa-check-circle me-2"></i><span></span></div>
+
+                            <div class="d-flex gap-2 mt-4">
+                                <button type="submit" class="btn-accent flex-grow-1"><i class="fas fa-rocket me-2"></i>Publicar ahora</button>
+                                <a href="articulos.html" class="btn-outline-spider"><i class="fas fa-xmark me-1"></i>Cancelar</a>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- TIPS -->
+                    <div class="row g-3 mt-2">
+                        <div class="col-md-4">
+                            <div class="feature-box" style="padding:20px;"><i class="fas fa-camera" style="font-size:1.5rem;"></i><h6 class="mt-2 mb-1">Buena foto</h6><small class="text-muted">Luz natural y fondo limpio</small></div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-box" style="padding:20px;"><i class="fas fa-pen" style="font-size:1.5rem;"></i><h6 class="mt-2 mb-1">Se detallado</h6><small class="text-muted">Cuanto mas info, mas confianza</small></div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-box" style="padding:20px;"><i class="fas fa-euro-sign" style="font-size:1.5rem;"></i><h6 class="mt-2 mb-1">Precio justo</h6><small class="text-muted">Investiga antes de publicar</small></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <p class="mb-0"><i class="fas fa-gem me-2"></i>CollectZone 2025 - Proyecto DAW</p>
+                <div class="d-flex gap-3">
+                    <a href="index.html" class="small">Inicio</a>
+                    <a href="articulos.html" class="small">Articulos</a>
+                    <a href="mis-articulos.html" class="small">Mis articulos</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const usuario = getUsuarioActual();
+        if (!usuario) {
+            alert("Debes iniciar sesion para publicar");
+            window.location.href = "login.html";
+        }
+    });
+
+    function previsualizarImagen() {
+        const url = document.getElementById("imagenUrl").value;
+        const box = document.getElementById("previewBox");
+        const img = document.getElementById("imgPreview");
+        if (url && url.startsWith("http")) {
+            img.src = url;
+            box.style.display = "block";
+            img.onerror = () => box.style.display = "none";
+        } else {
+            box.style.display = "none";
+        }
+    }
+
+    document.getElementById("crearForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const usuario = getUsuarioActual();
+        const errorBox = document.getElementById("errorMsg");
+        const okBox = document.getElementById("okMsg");
+        errorBox.style.display = "none";
+        okBox.style.display = "none";
+
+        const data = {
+            nombre: document.getElementById("nombre").value.trim(),
+            descripcion: document.getElementById("descripcion").value.trim(),
+            precio: parseFloat(document.getElementById("precio").value),
+            categoria: document.getElementById("categoria").value,
+            estado: document.getElementById("estado").value,
+            imagenUrl: document.getElementById("imagenUrl").value.trim() || "https://via.placeholder.com/400x300?text=CollectZone",
+            usuario: { id: usuario.id }   // el api.js lo usará para el query param
+        };
+
+        try {
+            const res = await ArticuloAPI.crear(data);
+            if (res && res.id) {
+                okBox.querySelector("span").textContent = "Articulo publicado! Redirigiendo...";
+                okBox.style.display = "flex";
+                setTimeout(() => window.location.href = "mis-articulos.html", 1500);
+            } else {
+                errorBox.querySelector("span").textContent = "No se pudo publicar el articulo";
+                errorBox.style.display = "flex";
+            }
+        } catch(err) {
+            errorBox.querySelector("span").textContent = err.message || "Error al publicar el articulo";
+            errorBox.style.display = "flex";
+        }
+    });
+</script>
+</body>
+</html>

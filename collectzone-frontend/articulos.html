@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articulos - CollectZone</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><i class="fas fa-gem me-2"></i>CollectZone</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="border-color: rgba(255,255,255,0.3);">
+                <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="articulos.html">Articulos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ranking.html">Ranking</a></li>
+                    <li class="nav-item" id="publicarBtn" style="display:none;"><a class="nav-link" href="crear-articulo.html">Publicar</a></li>
+                    <li class="nav-item" id="misArticulosBtn" style="display:none;"><a class="nav-link" href="mis-articulos.html">Mis Articulos</a></li>
+                    <li class="nav-item" id="favoritosBtn" style="display:none;"><a class="nav-link" href="favoritos.html"><i class="fas fa-heart me-1"></i></a></li>
+                    <li class="nav-item" id="carritoBtn" style="display:none;">
+                        <a class="nav-link" href="carrito.html" style="position:relative;">
+                            <i class="fas fa-shopping-cart me-1"></i>
+                            <span id="carritoCount" class="badge rounded-pill" style="background:var(--accent); color:white; font-size:0.6rem; position:absolute; top:0; right:-8px; display:none;">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" id="intercambiosBtn" style="display:none;"><a class="nav-link" href="intercambios.html"><i class="fas fa-exchange-alt me-1"></i></a></li>
+                    <li class="nav-item" id="adminBtn" style="display:none;"><a class="nav-link" href="admin.html"><i class="fas fa-shield-halved me-1"></i>Admin</a></li>
+                    <li class="nav-item" id="loginBtn"><a class="nav-link" href="login.html">Iniciar Sesion</a></li>
+                    <li class="nav-item" id="registerBtn"><a class="nav-link" href="registro.html">Registrarse</a></li>
+                    <li class="nav-item" id="userInfo" style="display:none;">
+                        <span class="nav-link" style="color: var(--accent);"><i class="fas fa-user-circle me-1"></i><span id="userName"></span></span>
+                    </li>
+                    <li class="nav-item" id="logoutBtn" style="display:none;">
+                        <a class="nav-link" href="#" onclick="cerrarSesion()" style="color: rgba(255,255,255,0.6);"><i class="fas fa-sign-out-alt me-1"></i>Salir</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HEADER DE PAGINA -->
+    <section style="background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 50px 0; position:relative; overflow:hidden;">
+        <div style="position:absolute; inset:0; background-image: var(--web-pattern); background-size: 60px 60px; opacity:0.3;"></div>
+        <div class="container position-relative">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <div>
+                    <h2 class="fw-bold text-white mb-1"><i class="fas fa-boxes-stacked me-2" style="color:var(--accent);"></i>Articulos</h2>
+                    <p class="text-white-50 mb-0">Explora todos los coleccionables disponibles</p>
+                </div>
+                <div class="d-flex gap-2 align-items-center">
+                    <span class="badge rounded-pill px-3 py-2" style="background: rgba(255,255,255,0.15); color: white; font-size: 0.85rem;">
+                        <i class="fas fa-layer-group me-1"></i><span id="totalResultados">0</span> articulos
+                    </span>
+                    <a href="crear-articulo.html" class="btn-accent"><i class="fas fa-plus me-2"></i>Publicar</a>
+                </div>
+            </div>
+
+            <!-- CATEGORIAS RAPIDAS -->
+            <div class="d-flex gap-2 mt-4 flex-wrap">
+                <button onclick="filtroRapido('TODOS')" class="btn btn-sm filtro-rapido active" id="filtro-TODOS">Todos</button>
+                <button onclick="filtroRapido('CARTAS')" class="btn btn-sm filtro-rapido" id="filtro-CARTAS"><i class="fas fa-layer-group me-1"></i>Cartas</button>
+                <button onclick="filtroRapido('MONEDAS')" class="btn btn-sm filtro-rapido" id="filtro-MONEDAS"><i class="fas fa-coins me-1"></i>Monedas</button>
+                <button onclick="filtroRapido('FIGURAS')" class="btn btn-sm filtro-rapido" id="filtro-FIGURAS"><i class="fas fa-chess-knight me-1"></i>Figuras</button>
+                <button onclick="filtroRapido('SELLOS')" class="btn btn-sm filtro-rapido" id="filtro-SELLOS"><i class="fas fa-stamp me-1"></i>Sellos</button>
+                <button onclick="filtroRapido('OTROS')" class="btn btn-sm filtro-rapido" id="filtro-OTROS"><i class="fas fa-ellipsis me-1"></i>Otros</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mt-4">
+        <!-- FILTROS AVANZADOS -->
+        <div class="filtros-section">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold"><i class="fas fa-search me-1" style="color:var(--accent);"></i>Buscar</label>
+                    <div class="input-group">
+                        <input type="text" id="buscarInput" class="form-control" placeholder="Nombre del articulo..." oninput="aplicarFiltros()">
+                        <button onclick="aplicarFiltros()" class="btn btn-outline-secondary"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold"><i class="fas fa-filter me-1" style="color:var(--blue);"></i>Categoria</label>
+                    <select id="filtroCategoria" class="form-select" onchange="filtrarPorCategoria()">
+                        <option value="TODOS">Todas las categorias</option>
+                        <option value="CARTAS">Cartas</option>
+                        <option value="MONEDAS">Monedas</option>
+                        <option value="FIGURAS">Figuras</option>
+                        <option value="SELLOS">Sellos</option>
+                        <option value="OTROS">Otros</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold"><i class="fas fa-sort me-1" style="color:var(--gold);"></i>Ordenar por</label>
+                    <select id="ordenar" class="form-select" onchange="aplicarFiltros()">
+                        <option value="recientes">Mas recientes</option>
+                        <option value="precio-asc">Precio: menor a mayor</option>
+                        <option value="precio-desc">Precio: mayor a menor</option>
+                        <option value="nombre">Nombre A-Z</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <div class="btn-group w-100">
+                        <button onclick="cambiarVista('tarjetas')" class="btn btn-outline-secondary active" id="btnTarjetas" title="Vista tarjetas"><i class="fas fa-th-large"></i></button>
+                        <button onclick="cambiarVista('tabla')" class="btn btn-outline-secondary" id="btnTabla" title="Vista tabla"><i class="fas fa-list"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FILTROS DE ESTADO -->
+            <div class="d-flex gap-2 mt-3 flex-wrap">
+                <span class="fw-semibold small me-2" style="color:var(--gray); line-height:2;">Estado:</span>
+                <button onclick="filtrarPorEstado('TODOS')" class="btn btn-sm btn-outline-secondary estado-filtro active" id="estado-TODOS">Todos</button>
+                <button onclick="filtrarPorEstado('DISPONIBLE')" class="btn btn-sm btn-outline-success estado-filtro" id="estado-DISPONIBLE"><i class="fas fa-check-circle me-1"></i>Disponible</button>
+                <button onclick="filtrarPorEstado('INTERCAMBIO')" class="btn btn-sm btn-outline-primary estado-filtro" id="estado-INTERCAMBIO"><i class="fas fa-exchange-alt me-1"></i>Intercambio</button>
+                <button onclick="filtrarPorEstado('VENDIDO')" class="btn btn-sm btn-outline-danger estado-filtro" id="estado-VENDIDO"><i class="fas fa-tag me-1"></i>Vendido</button>
+            </div>
+        </div>
+
+        <!-- VISTA TARJETAS -->
+        <div id="vistaTarjetas">
+            <div class="row" id="articulosContainer"></div>
+        </div>
+
+        <!-- VISTA TABLA -->
+        <div id="vistaTabla" style="display: none;">
+            <div class="tabla-custom">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr><th>Nombre</th><th>Categoria</th><th>Precio</th><th>Estado</th><th>Vendedor</th><th>Acciones</th></tr>
+                    </thead>
+                    <tbody id="tablaArticulos"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5><i class="fas fa-gem me-2"></i>CollectZone</h5>
+                    <p>La plataforma para coleccionistas. Compra, vende e intercambia tus piezas favoritas con total confianza.</p>
+                    <div class="d-flex gap-3 mt-3">
+                        <a href="#" style="color:var(--accent); font-size:1.2rem;"><i class="fab fa-instagram"></i></a>
+                        <a href="#" style="color:var(--accent); font-size:1.2rem;"><i class="fab fa-twitter"></i></a>
+                        <a href="#" style="color:var(--accent); font-size:1.2rem;"><i class="fab fa-discord"></i></a>
+                        <a href="#" style="color:var(--accent); font-size:1.2rem;"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2 mb-4">
+                    <h5>Plataforma</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="articulos.html">Articulos</a></li>
+                        <li><a href="ranking.html">Ranking</a></li>
+                        <li><a href="crear-articulo.html">Publicar</a></li>
+                        <li><a href="registro.html">Registrarse</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2 mb-4">
+                    <h5>Categorias</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="articulos.html?categoria=CARTAS">Cartas</a></li>
+                        <li><a href="articulos.html?categoria=MONEDAS">Monedas</a></li>
+                        <li><a href="articulos.html?categoria=FIGURAS">Figuras</a></li>
+                        <li><a href="articulos.html?categoria=SELLOS">Sellos</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5>Contacto</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-envelope me-2" style="color:var(--accent);"></i>info@collectzone.com</li>
+                        <li class="mt-2"><i class="fas fa-map-marker-alt me-2" style="color:var(--accent);"></i>Espana</li>
+                        <li class="mt-2"><i class="fas fa-code me-2" style="color:var(--accent);"></i>Proyecto DAW 2025</li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <p class="mb-0">CollectZone 2025 - Proyecto Intermodular DAW</p>
+                <div class="d-flex gap-3">
+                    <a href="#" class="small">Privacidad</a>
+                    <a href="#" class="small">Terminos</a>
+                    <a href="#" class="small">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        let filtroEstadoActual = "TODOS";
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Categoria desde URL (ej: articulos.html?categoria=CARTAS)
+            const params = new URLSearchParams(window.location.search);
+            const cat = params.get("categoria");
+            if (cat) {
+                document.getElementById("filtroCategoria").value = cat;
+                document.querySelectorAll('.filtro-rapido').forEach(btn => btn.classList.remove('active'));
+                const btn = document.getElementById('filtro-' + cat);
+                if (btn) btn.classList.add('active');
+            }
+            aplicarFiltros();
+        });
+
+        function filtroRapido(categoria) {
+            document.querySelectorAll('.filtro-rapido').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('filtro-' + categoria).classList.add('active');
+            document.getElementById("filtroCategoria").value = categoria;
+            aplicarFiltros();
+        }
+
+        function filtrarPorEstado(estado) {
+            filtroEstadoActual = estado;
+            document.querySelectorAll('.estado-filtro').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('estado-' + estado).classList.add('active');
+            aplicarFiltros();
+        }
+
+        function cambiarVista(tipo) {
+            if (tipo === "tarjetas") {
+                document.getElementById("vistaTarjetas").style.display = "block";
+                document.getElementById("vistaTabla").style.display = "none";
+                document.getElementById("btnTarjetas").classList.add("active");
+                document.getElementById("btnTabla").classList.remove("active");
+            } else {
+                document.getElementById("vistaTarjetas").style.display = "none";
+                document.getElementById("vistaTabla").style.display = "block";
+                document.getElementById("btnTabla").classList.add("active");
+                document.getElementById("btnTarjetas").classList.remove("active");
+            }
+            aplicarFiltros();
+        }
+
+        // Funcion central: combina busqueda + categoria + estado + orden
+        async function aplicarFiltros() {
+            try {
+                let articulos = await ArticuloAPI.obtenerTodos();
+
+                // Busqueda por texto
+                const q = document.getElementById("buscarInput").value.trim().toLowerCase();
+                if (q) articulos = articulos.filter(a => a.nombre.toLowerCase().includes(q));
+
+                // Categoria
+                const categoria = document.getElementById("filtroCategoria").value;
+                if (categoria !== "TODOS") articulos = articulos.filter(a => a.categoria === categoria);
+
+                // Estado
+                if (filtroEstadoActual !== "TODOS") articulos = articulos.filter(a => a.estado === filtroEstadoActual);
+
+                // Orden
+                const orden = document.getElementById("ordenar").value;
+                switch (orden) {
+                    case "precio-asc": articulos.sort((a, b) => a.precio - b.precio); break;
+                    case "precio-desc": articulos.sort((a, b) => b.precio - a.precio); break;
+                    case "nombre": articulos.sort((a, b) => a.nombre.localeCompare(b.nombre)); break;
+                    default: articulos.reverse();
+                }
+
+                document.getElementById("totalResultados").textContent = articulos.length;
+                mostrarArticulos(articulos);  // funcion unificada de app.js
+            } catch (e) { console.error(e); }
+        }
+
+        // Wrappers para compatibilidad con nombres antiguos
+        function buscarArticulos() { aplicarFiltros(); }
+        function ordenarArticulos() { aplicarFiltros(); }
+        function filtrarPorCategoria() {
+            const cat = document.getElementById("filtroCategoria").value;
+            document.querySelectorAll('.filtro-rapido').forEach(btn => btn.classList.remove('active'));
+            const btn = document.getElementById('filtro-' + cat);
+            if (btn) btn.classList.add('active');
+            aplicarFiltros();
+        }
+    </script>
+</body>

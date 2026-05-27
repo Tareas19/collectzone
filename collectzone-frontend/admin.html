@@ -1,0 +1,394 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - CollectZone</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .admin-hero {
+            background:
+                radial-gradient(ellipse at top left, rgba(229,9,20,0.15), transparent 50%),
+                radial-gradient(ellipse at bottom right, rgba(79,70,229,0.10), transparent 50%),
+                #000;
+            padding: 60px 0 50px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .stat-tile {
+            background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
+            border: 1px solid var(--gray-light);
+            border-radius: 14px;
+            padding: 22px 20px;
+            transition: all .3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-tile:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 14px 40px rgba(0,0,0,0.55);
+        }
+        .stat-tile .stat-icon {
+            width: 44px; height: 44px; border-radius: 10px;
+            background: rgba(229,9,20,0.10); color: var(--accent);
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; margin-bottom: 14px;
+        }
+        .stat-tile .stat-value { font-size: 2rem; font-weight: 900; color: var(--dark-text); line-height: 1; }
+        .stat-tile .stat-label { color: var(--gray); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 6px; }
+        .panel-card { background: var(--secondary); border: 1px solid var(--gray-light); border-radius: 14px; padding: 24px; height: 100%; }
+        .panel-card h5 { font-weight: 800; color: var(--dark-text); margin: 0 0 16px 0; text-transform: uppercase; letter-spacing: 1px; font-size: 0.95rem; display: flex; align-items: center; gap: 10px; }
+        .panel-card h5 i { color: var(--accent); }
+        .chart-wrap { position: relative; height: 260px; }
+        .top-item { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--gray-light); }
+        .top-item:last-child { border-bottom: none; }
+        .top-item .top-pos { width: 28px; height: 28px; border-radius: 50%; background: rgba(229,9,20,0.12); color: var(--accent); display: inline-flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.85rem; flex-shrink: 0; }
+        .top-item img { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; background: #2a2a2a; }
+        .top-item .top-name { color: var(--dark-text); font-weight: 700; font-size: 0.92rem; margin: 0; }
+        .top-item .top-cat { color: var(--gray); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; }
+        .top-item .top-price { margin-left: auto; color: var(--accent); font-weight: 900; font-size: 1rem; }
+        .search-box { position: relative; max-width: 360px; margin-bottom: 18px; }
+        .search-box input { background-color: #1a1a1a; color: var(--dark-text); border: 1px solid var(--gray-light); border-radius: 30px; padding: 10px 16px 10px 40px; width: 100%; transition: all .2s; }
+        .search-box input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(229,9,20,0.15); outline: none; }
+        .search-box i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--gray); }
+        #adminTabs .filtro-rapido { background: transparent; color: var(--gray); border: 1px solid var(--gray-light); }
+        #adminTabs .filtro-rapido.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR (igual que en index.html, copia el navbar tal cual) -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><i class="fas fa-gem me-2"></i>CollectZone</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="border-color: rgba(255,255,255,0.3);">
+                <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="articulos.html">Articulos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ranking.html">Ranking</a></li>
+                    <li class="nav-item" id="publicarBtn" style="display:none;"><a class="nav-link" href="crear-articulo.html">Publicar</a></li>
+                    <li class="nav-item" id="misArticulosBtn" style="display:none;"><a class="nav-link" href="mis-articulos.html">Mis Articulos</a></li>
+                    <li class="nav-item" id="favoritosBtn" style="display:none;"><a class="nav-link" href="favoritos.html"><i class="fas fa-heart me-1"></i></a></li>
+                    <li class="nav-item" id="carritoBtn" style="display:none;">
+                        <a class="nav-link" href="carrito.html" style="position:relative;">
+                            <i class="fas fa-shopping-cart me-1"></i>
+                            <span id="carritoCount" class="badge rounded-pill" style="background:var(--accent); color:white; font-size:0.6rem; position:absolute; top:0; right:-8px; display:none;">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" id="intercambiosBtn" style="display:none;"><a class="nav-link" href="intercambios.html"><i class="fas fa-exchange-alt me-1"></i></a></li>
+                    <li class="nav-item" id="adminBtn" style="display:none;"><a class="nav-link active" href="admin.html"><i class="fas fa-shield-halved me-1"></i>Admin</a></li>
+                    <li class="nav-item" id="loginBtn"><a class="nav-link" href="login.html">Iniciar Sesion</a></li>
+                    <li class="nav-item" id="registerBtn"><a class="nav-link" href="registro.html">Registrarse</a></li>
+                    <li class="nav-item" id="userInfo" style="display:none;">
+                        <span class="nav-link" style="color: var(--accent);"><i class="fas fa-user-circle me-1"></i><span id="userName"></span></span>
+                    </li>
+                    <li class="nav-item" id="logoutBtn" style="display:none;">
+                        <a class="nav-link" href="#" onclick="cerrarSesion()" style="color: rgba(255,255,255,0.6);"><i class="fas fa-sign-out-alt me-1"></i>Salir</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="admin-hero">
+        <div class="container position-relative">
+            <span style="display:inline-flex; align-items:center; gap:10px; font-size:0.78rem; font-weight:800; letter-spacing:4px; text-transform:uppercase; color:var(--accent); margin-bottom:14px;">
+                <span style="width:36px; height:2px; background:var(--accent); display:inline-block;"></span>
+                Panel de control
+            </span>
+            <h1 style="color:var(--dark-text); font-weight:900; font-size:2.6rem; letter-spacing:-1px; margin:0 0 6px 0;">
+                <i class="fas fa-shield-halved me-2" style="color:var(--accent);"></i>Panel <em style="font-style:normal; color:var(--accent);">Admin</em>
+            </h1>
+            <p style="color:var(--gray); margin:0;">Gestiona usuarios, contenido y estadísticas de la plataforma</p>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="py-4" style="background: var(--primary);">
+        <div class="container">
+            <div class="row g-3">
+                <div class="col-6 col-md-3"><div class="stat-tile"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-value" id="totalUsuarios">0</div><div class="stat-label">Usuarios</div></div></div>
+                <div class="col-6 col-md-3"><div class="stat-tile"><div class="stat-icon"><i class="fas fa-box"></i></div><div class="stat-value" id="totalArticulos">0</div><div class="stat-label">Artículos</div></div></div>
+                <div class="col-6 col-md-3"><div class="stat-tile"><div class="stat-icon"><i class="fas fa-tag"></i></div><div class="stat-value" id="totalVendidos">0</div><div class="stat-label">Vendidos</div></div></div>
+                <div class="col-6 col-md-3"><div class="stat-tile"><div class="stat-icon"><i class="fas fa-exchange-alt"></i></div><div class="stat-value" id="totalIntercambios">0</div><div class="stat-label">Intercambios</div></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DASHBOARDS / CHARTS -->
+    <section class="py-4" style="background: var(--primary);">
+        <div class="container">
+            <div class="row g-3">
+                <div class="col-lg-5"><div class="panel-card"><h5><i class="fas fa-chart-pie"></i> Distribución por categorías</h5><div class="chart-wrap"><canvas id="chartCategorias"></canvas></div></div></div>
+                <div class="col-lg-7"><div class="panel-card"><h5><i class="fas fa-chart-column"></i> Registros de usuarios (últimos 6 meses)</h5><div class="chart-wrap"><canvas id="chartUsuariosMes"></canvas></div></div></div>
+                <div class="col-lg-7"><div class="panel-card"><h5><i class="fas fa-chart-line"></i> Artículos por estado</h5><div class="chart-wrap"><canvas id="chartEstados"></canvas></div></div></div>
+                <div class="col-lg-5"><div class="panel-card"><h5><i class="fas fa-trophy"></i> Top 5 artículos más caros</h5><div id="topArticulos"></div></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TABS -->
+    <section class="py-4" style="background: var(--primary);">
+        <div class="container">
+            <ul class="nav nav-pills gap-2 mb-3" id="adminTabs">
+                <li class="nav-item"><button class="btn filtro-rapido active" onclick="showAdminTab('usuarios')" id="tab-usuarios"><i class="fas fa-users me-1"></i>Usuarios</button></li>
+                <li class="nav-item"><button class="btn filtro-rapido" onclick="showAdminTab('articulos')" id="tab-articulos"><i class="fas fa-box me-1"></i>Artículos</button></li>
+            </ul>
+
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Buscar en tiempo real..." autocomplete="off">
+            </div>
+
+            <div id="adminContent"></div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <p class="mb-0"><i class="fas fa-gem me-2"></i>CollectZone 2025 — Proyecto DAW</p>
+                <div class="d-flex gap-3">
+                    <a href="index.html" class="small">Inicio</a>
+                    <a href="articulos.html" class="small">Artículos</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        let usuariosData = [], articulosData = [];
+        let currentTab = 'usuarios';
+        let chartCategoriasInst, chartUsuariosMesInst, chartEstadosInst;
+
+        if (window.Chart) {
+            Chart.defaults.color = 'rgba(255,255,255,0.7)';
+            Chart.defaults.borderColor = 'rgba(255,255,255,0.08)';
+            Chart.defaults.font.family = "'Segoe UI', Tahoma, sans-serif";
+        }
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            const usuario = getUsuarioActual();
+            if (!usuario || usuario.rol !== "ADMIN" || (usuario.email || "").toLowerCase() !== "root@collectzone.com") {
+                alert("Acceso restringido al super-admin");
+                window.location.href = "index.html";
+                return;
+            }
+            await cargarTodo();
+            renderDashboards();
+            renderTopArticulos();
+            showAdminTab('usuarios');
+
+            document.getElementById('searchInput').addEventListener('input', () => {
+                if (currentTab === 'usuarios') renderUsuarios();
+                else renderArticulos();
+            });
+        });
+
+        async function cargarTodo() {
+            try {
+                [usuariosData, articulosData] = await Promise.all([
+                    UsuarioAPI.obtenerTodos(),
+                    ArticuloAPI.obtenerTodos()
+                ]);
+                document.getElementById("totalUsuarios").textContent = usuariosData.length;
+                document.getElementById("totalArticulos").textContent = articulosData.length;
+                document.getElementById("totalVendidos").textContent = articulosData.filter(a => a.estado === "VENDIDO").length;
+                document.getElementById("totalIntercambios").textContent = articulosData.filter(a => a.estado === "INTERCAMBIO").length;
+            } catch(e) { console.error(e); }
+        }
+
+        function renderDashboards() {
+            renderChartCategorias();
+            renderChartUsuariosMes();
+            renderChartEstados();
+        }
+
+        function renderChartCategorias() {
+            const counts = {};
+            articulosData.forEach(a => { counts[a.categoria] = (counts[a.categoria] || 0) + 1; });
+            const labels = Object.keys(counts);
+            const data   = Object.values(counts);
+            const colors = ['#e50914', '#f5c518', '#4f46e5', '#46d369', '#ff7a45', '#8b5cf6'];
+
+            if (chartCategoriasInst) chartCategoriasInst.destroy();
+            const ctx = document.getElementById('chartCategorias').getContext('2d');
+            chartCategoriasInst = new Chart(ctx, {
+                type: 'doughnut',
+                data: { labels, datasets: [{ data, backgroundColor: colors.slice(0, labels.length), borderColor: '#141414', borderWidth: 3, hoverOffset: 10 }] },
+                options: { responsive: true, maintainAspectRatio: false, cutout: '62%', plugins: { legend: { position: 'bottom', labels: { padding: 12, usePointStyle: true } } } }
+            });
+        }
+
+        function renderChartUsuariosMes() {
+            const now = new Date();
+            const buckets = [];
+            const labels = [];
+            for (let i = 5; i >= 0; i--) {
+                const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+                buckets.push({ key: d.getFullYear() + '-' + d.getMonth(), count: 0 });
+                labels.push(d.toLocaleDateString('es-ES', { month: 'short' }));
+            }
+            usuariosData.forEach(u => {
+                if (!u.fechaRegistro) return;
+                const f = new Date(u.fechaRegistro);
+                const key = f.getFullYear() + '-' + f.getMonth();
+                const b = buckets.find(x => x.key === key);
+                if (b) b.count++;
+            });
+
+            if (chartUsuariosMesInst) chartUsuariosMesInst.destroy();
+            const ctx = document.getElementById('chartUsuariosMes').getContext('2d');
+            const grad = ctx.createLinearGradient(0, 0, 0, 260);
+            grad.addColorStop(0, 'rgba(229,9,20,0.85)');
+            grad.addColorStop(1, 'rgba(229,9,20,0.2)');
+
+            chartUsuariosMesInst = new Chart(ctx, {
+                type: 'bar',
+                data: { labels, datasets: [{ label: 'Nuevos usuarios', data: buckets.map(b => b.count), backgroundColor: grad, borderRadius: 8, borderSkipped: false, maxBarThickness: 48 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: 'rgba(255,255,255,0.05)' } }, x: { grid: { display: false } } } }
+            });
+        }
+
+        function renderChartEstados() {
+            const counts = { DISPONIBLE: 0, INTERCAMBIO: 0, VENDIDO: 0 };
+            articulosData.forEach(a => { if (counts[a.estado] !== undefined) counts[a.estado]++; });
+
+            if (chartEstadosInst) chartEstadosInst.destroy();
+            const ctx = document.getElementById('chartEstados').getContext('2d');
+            chartEstadosInst = new Chart(ctx, {
+                type: 'line',
+                data: { labels: ['Disponibles', 'Intercambio', 'Vendidos'], datasets: [{ label: 'Artículos', data: [counts.DISPONIBLE, counts.INTERCAMBIO, counts.VENDIDO], borderColor: '#e50914', backgroundColor: 'rgba(229,9,20,0.12)', tension: 0.4, fill: true, pointBackgroundColor: '#fff', pointBorderColor: '#e50914', pointRadius: 5, pointHoverRadius: 7, borderWidth: 3 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: 'rgba(255,255,255,0.05)' } }, x: { grid: { display: false } } } }
+            });
+        }
+
+        function renderTopArticulos() {
+            const top = [...articulosData].sort((a, b) => (b.precio || 0) - (a.precio || 0)).slice(0, 5);
+            const cont = document.getElementById('topArticulos');
+            if (!top.length) { cont.innerHTML = `<p style="color:var(--gray); text-align:center; padding:30px 0;">Sin artículos para mostrar</p>`; return; }
+            cont.innerHTML = top.map((a, i) => `
+                <div class="top-item">
+                    <span class="top-pos">${i + 1}</span>
+                    <img src="${a.imagenUrl || 'https://placehold.co/80/141414/e50914?text=' + (a.categoria || '?').charAt(0)}" alt="">
+                    <div>
+                        <div class="top-name">${a.nombre}</div>
+                        <div class="top-cat">${a.categoria || ''}</div>
+                    </div>
+                    <div class="top-price">${a.precio?.toFixed(2) ?? '0.00'} €</div>
+                </div>
+            `).join('');
+        }
+
+        function showAdminTab(tipo) {
+            currentTab = tipo;
+            document.querySelectorAll('#adminTabs .filtro-rapido').forEach(b => b.classList.remove('active'));
+            document.getElementById('tab-' + tipo).classList.add('active');
+            document.getElementById('searchInput').value = '';
+            tipo === 'usuarios' ? renderUsuarios() : renderArticulos();
+        }
+
+        function getQuery() { return document.getElementById('searchInput').value.trim().toLowerCase(); }
+
+        function renderUsuarios() {
+            const q = getQuery();
+            const rows = usuariosData.filter(u => !q || u.nombre.toLowerCase().includes(q) || (u.email || '').toLowerCase().includes(q) || (u.rol || '').toLowerCase().includes(q));
+            const cont = document.getElementById("adminContent");
+            cont.innerHTML = `
+                <div class="tabla-custom">
+                    <table class="table table-hover mb-0">
+                        <thead><tr><th>ID</th><th>Usuario</th><th>Email</th><th>Rol</th><th>Registrado</th><th class="text-end">Acciones</th></tr></thead>
+                        <tbody>
+                            ${rows.map(u => {
+                                const fecha = u.fechaRegistro ? new Date(u.fechaRegistro).toLocaleDateString('es-ES') : '-';
+                                const rolBadge = u.rol === "ADMIN"
+                                    ? '<span class="badge" style="background:rgba(245,197,24,0.18); color:var(--gold); border:1px solid rgba(245,197,24,0.4);">ADMIN</span>'
+                                    : '<span class="badge" style="background:rgba(255,255,255,0.08); color:var(--gray); border:1px solid var(--gray-light);">USER</span>';
+                                return `
+                                    <tr>
+                                        <td><strong>#${u.id}</strong></td>
+                                        <td><div class="d-flex align-items-center gap-2"><div style="width:36px; height:36px; border-radius:50%; background:var(--accent); color:white; display:flex; align-items:center; justify-content:center; font-weight:bold;">${u.nombre.charAt(0).toUpperCase()}</div><strong>${u.nombre}</strong></div></td>
+                                        <td><small>${u.email}</small></td>
+                                        <td>${rolBadge}</td>
+                                        <td><small>${fecha}</small></td>
+                                        <td class="text-end">
+                                            <button onclick="toggleRol(${u.id})" class="btn btn-sm btn-outline-secondary" title="Cambiar rol"><i class="fas fa-user-shield"></i></button>
+                                            <button onclick="borrarUsuario(${u.id})" class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>`;
+                            }).join("") || `<tr><td colspan="6" style="text-align:center; color:var(--gray); padding:30px;">Sin resultados</td></tr>`}
+                        </tbody>
+                    </table>
+                </div>`;
+        }
+
+        function renderArticulos() {
+            const q = getQuery();
+            const rows = articulosData.filter(a => !q || a.nombre.toLowerCase().includes(q) || (a.categoria || '').toLowerCase().includes(q) || (a.estado || '').toLowerCase().includes(q) || (a.usuario?.nombre || '').toLowerCase().includes(q));
+            const cont = document.getElementById("adminContent");
+            const estadoBadges = {
+                "DISPONIBLE": '<span class="badge" style="background:rgba(70,211,105,0.15); color:var(--success); border:1px solid rgba(70,211,105,0.4);">Disponible</span>',
+                "INTERCAMBIO": '<span class="badge" style="background:rgba(79,70,229,0.15); color:var(--blue-light); border:1px solid rgba(79,70,229,0.4);">Intercambio</span>',
+                "VENDIDO": '<span class="badge" style="background:rgba(229,9,20,0.15); color:var(--accent); border:1px solid rgba(229,9,20,0.4);">Vendido</span>'
+            };
+            cont.innerHTML = `
+                <div class="tabla-custom">
+                    <table class="table table-hover mb-0">
+                        <thead><tr><th>ID</th><th>Artículo</th><th>Categoría</th><th>Precio</th><th>Estado</th><th>Vendedor</th><th class="text-end">Acciones</th></tr></thead>
+                        <tbody>
+                            ${rows.map(a => `
+                                <tr>
+                                    <td><strong>#${a.id}</strong></td>
+                                    <td><div class="d-flex align-items-center gap-2"><img src="${a.imagenUrl || 'https://placehold.co/40/141414/e50914?text=?'}" style="width:40px; height:40px; border-radius:6px; object-fit:cover;"><strong>${a.nombre}</strong></div></td>
+                                    <td><span class="badge-categoria">${a.categoria}</span></td>
+                                    <td><strong style="color:var(--accent);">${a.precio} EUR</strong></td>
+                                    <td>${estadoBadges[a.estado] || ''}</td>
+                                    <td><small>${a.usuario?.nombre || '-'}</small></td>
+                                    <td class="text-end">
+                                        <a href="detalle-articulo.html?id=${a.id}" class="btn btn-sm btn-outline-secondary" title="Ver"><i class="fas fa-eye"></i></a>
+                                        <a href="editar-articulo.html?id=${a.id}" class="btn btn-sm btn-outline-primary" title="Editar"><i class="fas fa-pen"></i></a>
+                                        <button onclick="borrarArticulo(${a.id})" class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>`).join("") || `<tr><td colspan="7" style="text-align:center; color:var(--gray); padding:30px;">Sin resultados</td></tr>`}
+                        </tbody>
+                    </table>
+                </div>`;
+        }
+
+        async function toggleRol(id) {
+            const u = usuariosData.find(x => x.id === id);
+            const nuevoRol = u.rol === "ADMIN" ? "USER" : "ADMIN";
+            if (!confirm(`¿Cambiar rol de ${u.nombre} a ${nuevoRol}?`)) return;
+            try { await UsuarioAPI.actualizar(id, { ...u, rol: nuevoRol }); await cargarTodo(); renderUsuarios(); }
+            catch(e) { alert("Error: " + (e.message || "")); }
+        }
+
+        async function borrarUsuario(id) {
+            const u = usuariosData.find(x => x.id === id);
+            if (!confirm(`¿Eliminar al usuario ${u.nombre}? Esto borrará todos sus datos.`)) return;
+            try { await UsuarioAPI.eliminar(id); await cargarTodo(); renderDashboards(); renderTopArticulos(); renderUsuarios(); }
+            catch(e) { alert("Error: " + (e.message || "Puede tener artículos asociados")); }
+        }
+
+        async function borrarArticulo(id) {
+            if (!confirm("¿Eliminar este artículo?")) return;
+            try { await ArticuloAPI.eliminar(id); await cargarTodo(); renderDashboards(); renderTopArticulos(); renderArticulos(); }
+            catch(e) { alert("Error al eliminar"); }
+        }
+    </script>
+</body>
+</html>

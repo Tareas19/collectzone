@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CollectZone - Coleccionables</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="htt...ap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><i class="fas fa-gem"></i>CollectZone</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="articulos.html">Articulos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ranking.html">Ranking</a></li>
+                    <li class="nav-item" id="publicarBtn" style="display:none;"><a class="nav-link" href="crear-articulo.html">Publicar</a></li>
+                    <li class="nav-item" id="misArticulosBtn" style="display:none;"><a class="nav-link" href="mis-articulos.html">Mis Articulos</a></li>
+                    <li class="nav-item" id="favoritosBtn" style="display:none;"><a class="nav-link" href="favoritos.html"><i class="fas fa-heart"></i></a></li>
+                    <li class="nav-item" id="carritoBtn" style="display:none;">
+                        <a class="nav-link" href="carrito.html" style="position:relative;">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span id="carritoCount" class="badge rounded-pill" style="background:var(--cyan); color:var(--bg-0); font-size:0.6rem; position:absolute; top:-2px; right:-8px; display:none;">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" id="intercambiosBtn" style="display:none;"><a class="nav-link" href="intercambios.html"><i class="fas fa-exchange-alt"></i></a></li>
+                    <li class="nav-item" id="adminBtn" style="display:none;"><a class="nav-link" href="admin.html"><i class="fas fa-shield-halved me-1"></i>Admin</a></li>
+                    <li class="nav-item" id="loginBtn"><a class="nav-link" href="login.html">Iniciar sesion</a></li>
+                    <li class="nav-item" id="registerBtn"><a class="nav-link" href="registro.html">Registrarse</a></li>
+                    <li class="nav-item" id="userInfo" style="display:none;">
+                        <span class="nav-link"><i class="fas fa-user-circle me-1"></i><span id="userName"></span></span>
+                    </li>
+                    <li class="nav-item" id="logoutBtn" style="display:none;">
+                        <a class="nav-link" href="#" onclick="cerrarSesion()"><i class="fas fa-sign-out-alt me-1"></i>Salir</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-video-section">
+        <div class="cyber-bg" aria-hidden="true">
+            <div class="cyber-grid"></div>
+            <div class="cyber-orb cyber-orb-1"></div>
+            <div class="cyber-orb cyber-orb-2"></div>
+            <div class="cyber-orb cyber-orb-3"></div>
+            <div class="cyber-scan"></div>
+        </div>
+
+        <video class="hero-video-bg" autoplay muted loop playsinline preload="auto" onerror="this.style.display='none'">
+            <source src="/media/hero.mp4" type="video/mp4">
+        </video>
+
+        <div class="hero-video-content">
+            <div class="eyebrow">Online - La nueva era del coleccionismo</div>
+            <h1>Tu coleccion,<br><span class="grad">tu legado digital.</span></h1>
+            <p>Compra, vende e intercambia coleccionables con la comunidad mas apasionada de habla hispana. Sin intermediarios. Sin limites.</p>
+            <div class="cta-row">
+                <a href="articulos.html" class="btn-accent">Explorar articulos <i class="fas fa-arrow-right ms-2"></i></a>
+                <a href="registro.html" class="btn-blue" id="heroRegistroBtnTop">Unirse gratis</a>
+            </div>
+        </div>
+
+        <div class="hero-scroll-hint">
+            <span>Scroll</span>
+            <span class="line"></span>
+        </div>
+    </section>
+
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center" style="position:relative; z-index:1; min-height:520px;">
+                <div class="col-lg-6 text-start hero-text-col">
+                    <div class="apple-eyebrow">Bienvenido al hub</div>
+                    <h2>Una plataforma,<br><span>infinitas piezas.</span></h2>
+                    <p style="text-align:left; margin-left:0; margin-right:0; max-width:480px;">Cartas, monedas, figuras y sellos verificados por la comunidad. Tu marketplace cyber para coleccionistas exigentes.</p>
+                    <div class="d-flex gap-3 flex-wrap mt-4">
+                        <a href="articulos.html" class="btn-accent">Ver catalogo <i class="fas fa-arrow-right ms-2"></i></a>
+                        <a href="registro.html" class="btn-blue" id="heroRegistroBtn">Crear cuenta</a>
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-4 text-center"><div id="heroArticulos">0</div><small>Articulos</small></div>
+                        <div class="col-4 text-center"><div id="heroUsuarios">0</div><small>Usuarios</small></div>
+                        <div class="col-4 text-center"><div id="heroVentas">0</div><small>Ventas</small></div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center">
+                    <div class="app-mockup-wrapper">
+                        <div class="mockup-glow"></div>
+                        <div class="app-device">
+                            <div class="device-notch"></div>
+                            <div class="device-screen">
+                                <div class="app-slides">
+                                    <div class="app-slide active" id="slide-0">
+                                        <div class="slide-topbar">
+                                            <span class="slide-logo"><i class="fas fa-gem"></i> CollectZone</span>
+                                            <span class="slide-icon-btn"><i class="fas fa-search"></i></span>
+                                        </div>
+                                        <div class="slide-section-title">Ultimos articulos</div>
+                                        <div class="slide-cards">
+                                            <div class="slide-card">
+                                                <div class="slide-card-img" style="background: linear-gradient(135deg,#ff4d8d,#8b1839);"><i class="fas fa-layer-group"></i></div>
+                                                <div class="slide-card-info">
+                                                    <div class="slide-card-name">Charizard Holo</div>
+                                                    <div class="slide-card-price">89.99 EUR</div>
+                                                    <div class="slide-card-badge cartas">CARTAS</div>
+                                                </div>
+                                            </div>
+                                            <div class="slide-card">
+                                                <div class="slide-card-img" style="background: linear-gradient(135deg,#ffb547,#8a5a14);"><i class="fas fa-coins"></i></div>
+                                                <div class="slide-card-info">
+                                                    <div class="slide-card-name">Peseta 1975</div>
+                                                    <div class="slide-card-price">24.00 EUR</div>
+                                                    <div class="slide-card-badge monedas">MONEDAS</div>
+                                                </div>
+                                            </div>
+                                            <div class="slide-card">
+                                                <div class="slide-card-img" style="background: linear-gradient(135deg,#8b6dff,#2a1e6a);"><i class="fas fa-chess-knight"></i></div>
+                                                <div class="slide-card-info">
+                                                    <div class="slide-card-name">Funko Batman</div>
+                                                    <div class="slide-card-price">35.50 EUR</div>
+                                                    <div class="slide-card-badge figuras">FIGURAS</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slide-label"><i class="fas fa-store me-1"></i>Marketplace</div>
+                                    </div>
+
+                                    <div class="app-slide" id="slide-1">
+                                        <div class="slide-topbar">
+                                            <span class="slide-logo"><i class="fas fa-gem"></i> CollectZone</span>
+                                            <span class="slide-icon-btn"><i class="fas fa-bell"></i></span>
+                                        </div>
+                                        <div class="slide-section-title">Propuesta de intercambio</div>
+                                        <div class="intercambio-box">
+                                            <div class="intercambio-item">
+                                                <div class="inter-img" style="background:linear-gradient(135deg,#ff4d8d,#8b1839);"><i class="fas fa-layer-group"></i></div>
+                                                <div class="inter-name">Charizard</div>
+                                                <div class="inter-price">89.99 EUR</div>
+                                            </div>
+                                            <div class="inter-arrow"><i class="fas fa-exchange-alt"></i></div>
+                                            <div class="intercambio-item">
+                                                <div class="inter-img" style="background:linear-gradient(135deg,#8b6dff,#2a1e6a);"><i class="fas fa-chess-knight"></i></div>
+                                                <div class="inter-name">Funko Pop</div>
+                                                <div class="inter-price">35.50 EUR</div>
+                                            </div>
+                                        </div>
+                                        <div class="intercambio-msg"><i class="fas fa-comment me-1"></i><span>Me interesa mucho tu Charizard...</span></div>
+                                        <div class="intercambio-btns">
+                                            <button class="inter-btn-accept"><i class="fas fa-check me-1"></i>Aceptar</button>
+                                            <button class="inter-btn-reject"><i class="fas fa-times me-1"></i>Rechazar</button>
+                                        </div>
+                                        <div class="slide-label"><i class="fas fa-exchange-alt me-1"></i>Intercambios</div>
+                                    </div>
+
+                                    <div class="app-slide" id="slide-2">
+                                        <div class="slide-topbar">
+                                            <span class="slide-logo"><i class="fas fa-gem"></i> CollectZone</span>
+                                            <span class="slide-icon-btn"><i class="fas fa-trophy"></i></span>
+                                        </div>
+                                        <div class="slide-section-title">Top coleccionistas</div>
+                                        <div class="ranking-list">
+                                            <div class="rank-item rank-gold">
+                                                <div class="rank-pos"><i class="fas fa-crown"></i></div>
+                                                <div class="rank-avatar" style="background:#ff4d8d;">M</div>
+                                                <div class="rank-info"><div class="rank-name">Maria G.</div><div class="rank-sub">24 articulos</div></div>
+                                                <div class="rank-score">24</div>
+                                            </div>
+                                            <div class="rank-item rank-silver">
+                                                <div class="rank-pos"><i class="fas fa-medal"></i></div>
+                                                <div class="rank-avatar" style="background:#22e1ff; color:#04060f;">J</div>
+                                                <div class="rank-info"><div class="rank-name">Juan P.</div><div class="rank-sub">18 articulos</div></div>
+                                                <div class="rank-score">18</div>
+                                            </div>
+                                            <div class="rank-item rank-bronze">
+                                                <div class="rank-pos"><i class="fas fa-award"></i></div>
+                                                <div class="rank-avatar" style="background:#34e3a4; color:#04060f;">A</div>
+                                                <div class="rank-info"><div class="rank-name">Ana R.</div><div class="rank-sub">12 articulos</div></div>
+                                                <div class="rank-score">12</div>
+                                            </div>
+                                            <div class="rank-item">
+                                                <div class="rank-pos" style="color:#6a7494;">4</div>
+                                                <div class="rank-avatar" style="background:#3a4470;">C</div>
+                                                <div class="rank-info"><div class="rank-name">Carlos M.</div><div class="rank-sub">9 articulos</div></div>
+                                                <div class="rank-score" style="color:#6a7494;">9</div>
+                                            </div>
+                                        </div>
+                                        <div class="slide-label"><i class="fas fa-trophy me-1"></i>Ranking</div>
+                                    </div>
+
+                                    <div class="app-slide" id="slide-3">
+                                        <div class="slide-topbar">
+                                            <span class="slide-logo"><i class="fas fa-gem"></i> CollectZone</span>
+                                            <span class="slide-icon-btn"><i class="fas fa-shopping-cart"></i></span>
+                                        </div>
+                                        <div class="slide-section-title">Mi carrito</div>
+                                        <div class="cart-items">
+                                            <div class="cart-item">
+                                                <div class="cart-img" style="background:linear-gradient(135deg,#ff4d8d,#8b1839);"><i class="fas fa-layer-group"></i></div>
+                                                <div class="cart-info"><div class="cart-name">Charizard Holo</div><div class="cart-cat">CARTAS</div></div>
+                                                <div class="cart-price">89.99 EUR</div>
+                                            </div>
+                                            <div class="cart-item">
+                                                <div class="cart-img" style="background:linear-gradient(135deg,#ffb547,#8a5a14);"><i class="fas fa-coins"></i></div>
+                                                <div class="cart-info"><div class="cart-name">Peseta 1975</div><div class="cart-cat">MONEDAS</div></div>
+                                                <div class="cart-price">24.00 EUR</div>
+                                            </div>
+                                        </div>
+                                        <div class="cart-total-box">
+                                            <span>Total</span>
+                                            <span class="cart-total-price">113.99 EUR</span>
+                                        </div>
+                                        <button class="cart-checkout-btn"><i class="fas fa-lock me-2"></i>Confirmar compra</button>
+                                        <div class="slide-label"><i class="fas fa-shopping-cart me-1"></i>Carrito</div>
+                                    </div>
+                                </div>
+
+                                <div class="slide-dots">
+                                    <span class="dot active" onclick="goToSlide(0)"></span>
+                                    <span class="dot" onclick="goToSlide(1)"></span>
+                                    <span class="dot" onclick="goToSlide(2)"></span>
+                                    <span class="dot" onclick="goToSlide(3)"></span>
+                                </div>
+                            </div>
+                            <div class="device-home-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="apple-carousel-section">
+        <div class="apple-carousel-header">
+            <div class="apple-eyebrow" style="justify-content:center;">Lo nuevo. Lo unico.</div>
+            <h2>Piezas que <span class="grad">cuentan historias.</span></h2>
+            <p>Una seleccion curada de los coleccionables mas codiciados de la comunidad.</p>
+        </div>
+
+        <div class="apple-carousel-viewport">
+            <div class="apple-carousel-track" id="appleTrack">
+                <div class="apple-card dark">
+                    <div>
+                        <div class="apple-tag">Cartas</div>
+                        <h3>Charizard Holo.<br>Edicion Base.</h3>
+                        <p class="apple-sub">La carta que comenzo una leyenda. Estado mint, certificada.</p>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-end">
+                        <a href="articulos.html?categoria=CARTAS" class="apple-cta">Ver mas <i class="fas fa-arrow-right"></i></a>
+                        <div class="apple-card-icon"><i class="fas fa-fire"></i></div>
+                    </div>
+                </div>
+
+                <div class="apple-card light">
+                    <div>
+                        <div class="apple-tag">Monedas</div>
+                        <h3>Historia<br>en metal.</h3>
+                        <p class="apple-sub">Piezas desde 1850 hasta hoy. Cada moneda, un siglo.</p>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-end">
+                        <a href="articulos.html?categoria=MONEDAS" class="apple-cta">Explorar <i class="fas fa-arrow-right"></i></a>
+                        <div class="apple-card-icon"><i class="fas fa-coins"></i></div>
+                    </div>
+                </div>
+
+                <div class="apple-card red">
+                    <div>
+                        <div class="apple-tag">Figuras</div>
+                        <h3>Funko Pop.<br>Sin abrir.</h3>
+                        <p class="apple-sub">Coleccion completa Marvel y DC. Piezas exclusivas y limitadas.</p>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-end">
+                        <a href="articulos.html?categoria=FIGURAS" class="apple-cta">Descubrir <i class="fas fa-arrow-right"></i></a>
+                        <div class="apple-card-icon"><i class="fas fa-chess-knight"></i></div>
+                    </div>
+                </div>
+
+                <div class="apple-card blue">
+                    <div>
+                        <div class="apple-tag">Sellos</div>
+                        <h3>Filatelia<br>premium.</h3>
+                        <p class="apple-sub">Sellos raros de todo el mundo. Autentificados pieza a pieza.</p>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-end">
+                        <a href="articulos.html?categoria=SELLOS" class="apple-cta">Ver coleccion <i class="fas fa-arrow-right"></i></a>
+                        <div class="apple-card-icon"><i class="fas fa-stamp"></i></div>
+                    </div>
+                </div>
+
+                <div class="apple-card gold">
+                    <div>
+                        <div class="apple-tag">Destacado</div>
+                        <h3>Subastas<br>en vivo.</h3>
+                        <p class="apple-sub">Compite por las piezas mas raras de la plataforma.</p>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-end">
+                        <a href="articulos.html" class="apple-cta">Entrar <i class="fas fa-arrow-right"></i></a>
+                        <div class="apple-card-icon"><i class="fas fa-gavel"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="apple-carousel-controls">
+            <button class="apple-arrow" id="appleArrowPrev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
+            <div class="apple-progress" id="appleProgress"></div>
+            <button class="apple-arrow" id="appleArrowNext" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </section>
+
+    <section class="py-5" style="background: var(--bg-2);">
+        <div class="container">
+            <div class="text-center mb-5">
+                <div class="apple-eyebrow" style="justify-content:center;">Proceso</div>
+                <h2 class="section-title">Como funciona.</h2>
+                <p class="text-muted mt-2">En 3 simples pasos.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4 text-center fade-in">
+                    <div style="width:84px; height:84px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 22px;">
+                        <i class="fas fa-user-plus fa-2x" style="color:var(--cyan);"></i>
+                    </div>
+                    <h5>1. Crea tu cuenta</h5>
+                    <p class="text-muted">Registrate gratis en segundos y accede a toda la plataforma.</p>
+                </div>
+                <div class="col-md-4 text-center fade-in">
+                    <div style="width:84px; height:84px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 22px;">
+                        <i class="fas fa-upload fa-2x" style="color:var(--violet);"></i>
+                    </div>
+                    <h5>2. Publica o explora</h5>
+                    <p class="text-muted">Sube tus coleccionables o busca los que te interesan.</p>
+                </div>
+                <div class="col-md-4 text-center fade-in">
+                    <div style="width:84px; height:84px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 22px;">
+                        <i class="fas fa-handshake fa-2x" style="color:var(--green);"></i>
+                    </div>
+                    <h5>3. Compra o intercambia</h5>
+                    <p class="text-muted">Conecta con otros coleccionistas y haz crecer tu coleccion.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="categories-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <div class="apple-eyebrow" style="justify-content:center;">Categorias</div>
+                <h2 class="section-title">Encuentra tu pieza.</h2>
+                <p class="text-muted mt-2">Cuatro mundos. Una sola plataforma.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-6 col-lg-3">
+                    <a href="articulos.html?categoria=CARTAS" class="text-decoration-none">
+                        <div class="category-card">
+                            <span class="icon"><i class="fas fa-layer-group" style="color:var(--magenta);"></i></span>
+                            <h5>Cartas</h5>
+                            <p>Pokemon, Magic, Yu-Gi-Oh</p>
+                            <span id="countCartas" class="text-muted small">0 articulos</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <a href="articulos.html?categoria=MONEDAS" class="text-decoration-none">
+                        <div class="category-card">
+                            <span class="icon"><i class="fas fa-coins" style="color:var(--amber);"></i></span>
+                            <h5>Monedas</h5>
+                            <p>Antiguas y modernas</p>
+                            <span id="countMonedas" class="text-muted small">0 articulos</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <a href="articulos.html?categoria=FIGURAS" class="text-decoration-none">
+                        <div class="category-card">
+                            <span class="icon"><i class="fas fa-chess-knight" style="color:var(--violet);"></i></span>
+                            <h5>Figuras</h5>
+                            <p>Funko, Anime, Vintage</p>
+                            <span id="countFiguras" class="text-muted small">0 articulos</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <a href="articulos.html?categoria=SELLOS" class="text-decoration-none">
+                        <div class="category-card">
+                            <span class="icon"><i class="fas fa-stamp" style="color:var(--green);"></i></span>
+                            <h5>Sellos</h5>
+                            <p>De todo el mundo</p>
+                            <span id="countSellos" class="text-muted small">0 articulos</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="featured-section">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-end mb-4 flex-wrap gap-3">
+                <div>
+                    <div class="apple-eyebrow">Marketplace</div>
+                    <h2 class="section-title">Ultimos articulos.</h2>
+                    <p class="text-muted mt-2">Los mas recientes de la comunidad.</p>
+                </div>
+                <a href="articulos.html" class="btn-outline-spider">Ver todos <i class="fas fa-arrow-right ms-2"></i></a>
+            </div>
+            <div class="row" id="articulosDestacados"></div>
+        </div>
+    </section>
+
+    <section class="py-5" style="background: var(--bg-2);">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-end mb-4 flex-wrap gap-3">
+                <div>
+                    <div class="apple-eyebrow">Ranking</div>
+                    <h2 class="section-title">Top coleccionistas.</h2>
+                    <p class="text-muted mt-2">Los mas activos de la plataforma.</p>
+                </div>
+                <a href="ranking.html" class="btn-outline-spider">Ver ranking <i class="fas fa-trophy ms-2"></i></a>
+            </div>
+            <div class="row g-3" id="topColeccionistas"></div>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-6 col-md-3 stat-card"><div class="number" id="statArticulos">0</div><div class="label">Articulos</div></div>
+                <div class="col-6 col-md-3 stat-card"><div class="number" id="statUsuarios">0</div><div class="label">Coleccionistas</div></div>
+                <div class="col-6 col-md-3 stat-card"><div class="number" id="statVentas">0</div><div class="label">Vendidos</div></div>
+                <div class="col-6 col-md-3 stat-card"><div class="number" id="statIntercambios">0</div><div class="label">Intercambios</div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5" style="background: var(--bg-1);">
+        <div class="container text-center">
+            <div class="apple-eyebrow" style="justify-content:center;">Empieza ya</div>
+            <h2 class="section-title mb-3">Tu coleccion <span class="grad" style="background:linear-gradient(120deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">no se construye sola.</span></h2>
+            <p class="text-muted mb-4" style="max-width:580px; margin:0 auto; font-size:1.1rem;">Unete a la comunidad de coleccionistas mas grande en espanol. Es gratis y solo toma un minuto.</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
+                <a href="registro.html" class="btn-accent" id="ctaRegistroBtn">Crear cuenta gratis <i class="fas fa-arrow-right ms-2"></i></a>
+                <a href="articulos.html" class="btn-blue">Explorar primero</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5>CollectZone</h5>
+                    <p style="color:var(--text-secondary); font-size:0.9rem; line-height:1.6;">La plataforma para coleccionistas. Compra, vende e intercambia tus piezas favoritas con total confianza.</p>
+                    <div class="d-flex gap-3 mt-3">
+                        <a href="#" style="font-size:1.1rem;"><i class="fab fa-instagram"></i></a>
+                        <a href="#" style="font-size:1.1rem;"><i class="fab fa-twitter"></i></a>
+                        <a href="#" style="font-size:1.1rem;"><i class="fab fa-discord"></i></a>
+                        <a href="#" style="font-size:1.1rem;"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2 mb-4">
+                    <h5>Plataforma</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="articulos.html">Articulos</a></li>
+                        <li><a href="ranking.html">Ranking</a></li>
+                        <li><a href="crear-articulo.html">Publicar</a></li>
+                        <li><a href="registro.html">Registrarse</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2 mb-4">
+                    <h5>Categorias</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="articulos.html?categoria=CARTAS">Cartas</a></li>
+                        <li><a href="articulos.html?categoria=MONEDAS">Monedas</a></li>
+                        <li><a href="articulos.html?categoria=FIGURAS">Figuras</a></li>
+                        <li><a href="articulos.html?categoria=SELLOS">Sellos</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5>Contacto</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-envelope me-2"></i>info@collectzone.com</li>
+                        <li class="mt-2"><i class="fas fa-map-marker-alt me-2"></i>Espana</li>
+                        <li class="mt-2"><i class="fas fa-code me-2"></i>Proyecto DAW 2025</li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <p class="mb-0 small">CollectZone 2025 - Proyecto Intermodular DAW</p>
+                <div class="d-flex gap-3">
+                    <a href="#" class="small">Privacidad</a>
+                    <a href="#" class="small">Terminos</a>
+                    <a href="#" class="small">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+    function animarNumero(id, target) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        let n = 0;
+        const step = Math.max(1, Math.ceil(target / 40));
+        const t = setInterval(() => {
+            n += step;
+            if (n >= target) { n = target; clearInterval(t); }
+            el.textContent = n;
+        }, 30);
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+        try {
+            if (typeof cargarArticulosDestacados === "function") cargarArticulosDestacados();
+
+            const articulos = await ArticuloAPI.obtenerTodos();
+            const usuarios = await UsuarioAPI.obtenerTodos();
+
+            const vendidos = articulos.filter(a => a.estado === "VENDIDO").length;
+            const intercambios = articulos.filter(a => a.estado === "INTERCAMBIO").length;
+
+            animarNumero("heroArticulos", articulos.length);
+            animarNumero("heroUsuarios", usuarios.length);
+            animarNumero("heroVentas", vendidos);
+
+            animarNumero("statArticulos", articulos.length);
+            animarNumero("statUsuarios", usuarios.length);
+            animarNumero("statVentas", vendidos);
+            animarNumero("statIntercambios", intercambios);
+
+            document.getElementById("countCartas").textContent = articulos.filter(a => a.categoria === "CARTAS").length + " articulos";
+            document.getElementById("countMonedas").textContent = articulos.filter(a => a.categoria === "MONEDAS").length + " articulos";
+            document.getElementById("countFiguras").textContent = articulos.filter(a => a.categoria === "FIGURAS").length + " articulos";
+            document.getElementById("countSellos").textContent = articulos.filter(a => a.categoria === "SELLOS").length + " articulos";
+
+            const conteo = {};
+            articulos.forEach(art => { if (art.usuario) conteo[art.usuario.id] = (conteo[art.usuario.id] || 0) + 1; });
+
+            const top3 = usuarios
+                .map(u => ({ ...u, total: conteo[u.id] || 0 }))
+                .sort((a, b) => b.total - a.total)
+                .slice(0, 3);
+
+            const topContainer = document.getElementById("topColeccionistas");
+            if (topContainer && top3.length > 0) {
+                topContainer.innerHTML = top3.map((user, i) => {
+                    const posClass = i === 0 ? "ranking-1" : i === 1 ? "ranking-2" : "ranking-3";
+                    const medalla = i === 0 ? "fa-crown" : i === 1 ? "fa-medal" : "fa-award";
+                    const inicial = user.nombre.charAt(0).toUpperCase();
+                    return '<div class="col-md-4">' +
+                        '<div class="ranking-card fade-in" onclick="verPerfilUsuario(' + user.id + ')" style="cursor:pointer;">' +
+                            '<div class="d-flex align-items-center gap-3">' +
+                                '<div class="ranking-position ' + posClass + '"><i class="fas ' + medalla + '"></i></div>' +
+                                '<div style="width:50px; height:50px; border-radius:50%; background:linear-gradient(135deg,var(--bg-4),var(--bg-3)); color:var(--cyan); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1.2rem; border:1px solid var(--border-strong);">' + inicial + '</div>' +
+                                '<div class="flex-grow-1">' +
+                                    '<h6 class="fw-bold mb-0">' + user.nombre + '</h6>' +
+                                    '<small class="text-muted">' + user.total + ' articulos publicados</small>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>';
+                }).join("");
+            }
+
+            const usuario = typeof getUsuarioActual === "function" ? getUsuarioActual() : null;
+            if (usuario) {
+                const ctaBtn = document.getElementById("ctaRegistroBtn");
+                if (ctaBtn) ctaBtn.style.display = "none";
+            }
+
+            setTimeout(() => { if (typeof cargarEstadoFavoritos === "function") cargarEstadoFavoritos(); }, 500);
+        } catch (e) {
+            console.error("Error al cargar la pagina:", e);
+            const dest = document.getElementById("articulosDestacados");
+            if (dest) dest.innerHTML = '<div class="col-12 text-center py-5"><i class="fas fa-plug fa-3x d-block mb-3" style="color:var(--text-tertiary);"></i><h4 class="text-muted">No se puede conectar al servidor</h4><p class="text-muted">Asegurate de que el backend esta arrancado en el puerto 8080</p><button onclick="location.reload()" class="btn-accent mt-3"><i class="fas fa-rotate-right me-2"></i>Reintentar</button></div>';
+        }
+    });
+    </script>
+
+    <script>
+    let currentSlide = 0;
+    const totalSlides = 4;
+    let sliderInterval = null;
+
+    function goToSlide(n) {
+        const slides = document.querySelectorAll(".app-slide");
+        const dots = document.querySelectorAll(".dot");
+        slides[currentSlide].classList.remove("active");
+        slides[currentSlide].classList.add("exit");
+        setTimeout(() => slides[currentSlide >= 0 ? currentSlide : 0].classList.remove("exit"), 550);
+        currentSlide = n;
+        slides[currentSlide].classList.add("active");
+        dots.forEach((d, i) => d.classList.toggle("active", i === currentSlide));
+        clearInterval(sliderInterval);
+        sliderInterval = setInterval(nextSlide, 3500);
+    }
+    function nextSlide() { goToSlide((currentSlide + 1) % totalSlides); }
+    document.addEventListener("DOMContentLoaded", () => {
+        sliderInterval = setInterval(nextSlide, 3500);
+    });
+    </script>
+
+    <script>
+    (function() {
+        const track = document.getElementById("appleTrack");
+        const prev = document.getElementById("appleArrowPrev");
+        const next = document.getElementById("appleArrowNext");
+        const progress = document.getElementById("appleProgress");
+        if (!track) return;
+
+        const cards = track.querySelectorAll(".apple-card");
+        let index = 0;
+
+        cards.forEach((_, i) => {
+            const dot = document.createElement("span");
+            if (i === 0) dot.classList.add("active");
+            dot.addEventListener("click", () => goTo(i));
+            progress.appendChild(dot);
+        });
+        const dots = progress.querySelectorAll("span");
+
+        function getCardWidth() {
+            const card = cards[0];
+            const style = getComputedStyle(track);
+            const gap = parseInt(style.gap) || 22;
+            return card.offsetWidth + gap;
+        }
+
+        function update() {
+            const offset = -(index * getCardWidth());
+            track.style.transform = "translateX(" + offset + "px)";
+            dots.forEach((d, i) => d.classList.toggle("active", i === index));
+            prev.disabled = index === 0;
+            next.disabled = index >= cards.length - 1;
+        }
+
+        function goTo(i) {
+            index = Math.max(0, Math.min(cards.length - 1, i));
+            update();
+        }
+
+        prev.addEventListener("click", () => goTo(index - 1));
+        next.addEventListener("click", () => goTo(index + 1));
+        window.addEventListener("resize", update);
+
+        let auto = setInterval(() => {
+            index = (index + 1) % cards.length;
+            update();
+        }, 5000);
+
+        track.addEventListener("mouseenter", () => clearInterval(auto));
+        track.addEventListener("mouseleave", () => {
+            auto = setInterval(() => {
+                index = (index + 1) % cards.length;
+                update();
+            }, 5000);
+        });
+
+        update();
+    })();
+    </script>
+</body>
+</html>
