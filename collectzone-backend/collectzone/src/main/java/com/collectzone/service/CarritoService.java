@@ -34,21 +34,21 @@ public class CarritoService {
 
     public Carrito agregarAlCarrito(Long usuarioId, Long articuloId) {
         if (carritoRepository.existsByUsuarioIdAndArticuloId(usuarioId, articuloId)) {
-            throw new RuntimeException("Este artículo ya está en el carrito");
+            throw new RuntimeException("Este artÃ­culo ya estÃ¡ en el carrito");
         }
 
         Articulo articulo = articuloRepository.findById(articuloId)
-                .orElseThrow(() -> new RuntimeException("Artículo no encontrado"));
+                .orElseThrow(() -> new RuntimeException("ArtÃ­culo no encontrado"));
 
         if (articulo.getEstado() != Articulo.Estado.DISPONIBLE) {
-            throw new RuntimeException("Este artículo no está disponible");
+            throw new RuntimeException("Este artÃ­culo no estÃ¡ disponible");
         }
 
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        if (articulo.getUsuario().getId().equals(usuarioId)) {
-            throw new RuntimeException("No puedes comprar tu propio artículo");
+        if (articulo.getUsuario() != null && articulo.getUsuario().getId().equals(usuarioId)) {
+            throw new RuntimeException("No puedes comprar tu propio artÃ­culo");
         }
 
         Carrito item = Carrito.builder()
@@ -63,7 +63,7 @@ public class CarritoService {
     @Transactional
     public void eliminarDelCarrito(Long usuarioId, Long articuloId) {
         if (!carritoRepository.existsByUsuarioIdAndArticuloId(usuarioId, articuloId)) {
-            throw new RuntimeException("Este artículo no está en tu carrito");
+            throw new RuntimeException("Este artÃ­culo no estÃ¡ en tu carrito");
         }
         carritoRepository.deleteByUsuarioIdAndArticuloId(usuarioId, articuloId);
     }
@@ -73,7 +73,7 @@ public class CarritoService {
         List<Carrito> items = carritoRepository.findByUsuarioId(usuarioId);
 
         if (items.isEmpty()) {
-            throw new RuntimeException("El carrito está vacío");
+            throw new RuntimeException("El carrito estÃ¡ vacÃ­o");
         }
 
         Usuario comprador = usuarioRepository.findById(usuarioId)
