@@ -1,4 +1,4 @@
-﻿const API_URL = "http://localhost:8080/api";
+﻿const API_URL = "https://collectzone-production.up.railway.app/api";
 
 // ===== TOKEN =====
 function getToken() {
@@ -348,4 +348,5 @@ const IntercambioAPI = {
         return res.json();
     }
 };
+
 
