@@ -20,6 +20,7 @@ public class FavoritoService {
     private final UsuarioRepository usuarioRepository;
     private final ArticuloRepository articuloRepository;
 
+    @Transactional
     public List<Favorito> obtenerFavoritosDeUsuario(Long usuarioId) {
         return favoritoRepository.findByUsuarioId(usuarioId);
     }
@@ -34,14 +35,14 @@ public class FavoritoService {
 
     public Favorito agregarFavorito(Long usuarioId, Long articuloId) {
         if (favoritoRepository.existsByUsuarioIdAndArticuloId(usuarioId, articuloId)) {
-            throw new RuntimeException("Este artículo ya está en tus favoritos");
+            throw new RuntimeException("Este artÃ­culo ya estÃ¡ en tus favoritos");
         }
 
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         Articulo articulo = articuloRepository.findById(articuloId)
-                .orElseThrow(() -> new RuntimeException("Artículo no encontrado"));
+                .orElseThrow(() -> new RuntimeException("ArtÃ­culo no encontrado"));
 
         Favorito favorito = Favorito.builder()
                 .usuario(usuario)
@@ -55,7 +56,7 @@ public class FavoritoService {
     @Transactional
     public void eliminarFavorito(Long usuarioId, Long articuloId) {
         if (!favoritoRepository.existsByUsuarioIdAndArticuloId(usuarioId, articuloId)) {
-            throw new RuntimeException("Este artículo no está en tus favoritos");
+            throw new RuntimeException("Este artÃ­culo no estÃ¡ en tus favoritos");
         }
         favoritoRepository.deleteByUsuarioIdAndArticuloId(usuarioId, articuloId);
     }
