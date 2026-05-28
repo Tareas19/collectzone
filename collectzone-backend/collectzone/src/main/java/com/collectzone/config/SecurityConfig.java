@@ -1,4 +1,4 @@
-package com.collectzone.config;
+﻿package com.collectzone.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,9 +42,11 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowedOrigins(List.of(
-                "http://localhost",
                 "http://127.0.0.1:5500",
-                "http://localhost:5500"
+                "http://localhost:5500",
+                "http://localhost",
+                "http://localhost:80",
+                "https://helpful-passion-production-768e.up.railway.app"
         ));
 
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
