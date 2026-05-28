@@ -21,7 +21,6 @@ public class FavoritoService {
     private final ArticuloRepository articuloRepository;
 
     @Transactional
-    @Transactional
     public List<Favorito> obtenerFavoritosDeUsuario(Long usuarioId) {
         return favoritoRepository.findByUsuarioId(usuarioId);
     }
