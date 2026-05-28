@@ -43,7 +43,7 @@ public class Articulo {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false)
-    @JsonBackReference
+    @JsonIgnoreProperties({"articulos", "password"})
     private Usuario usuario;
 
     @Column(name = "fecha_publicacion")
