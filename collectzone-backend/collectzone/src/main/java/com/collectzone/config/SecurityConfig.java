@@ -1,4 +1,4 @@
-﻿package com.collectzone.config;
+package com.collectzone.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
