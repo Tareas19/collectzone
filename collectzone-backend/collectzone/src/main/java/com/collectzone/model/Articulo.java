@@ -3,7 +3,7 @@ package com.collectzone.model;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.EqualsAndHashCode;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.time.LocalDateTime;
 
 @Entity
@@ -43,7 +43,7 @@ public class Articulo {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false)
-    @JsonIgnoreProperties({"articulos", "password"})
+    @JsonBackReference
     private Usuario usuario;
 
     @Column(name = "fecha_publicacion")
