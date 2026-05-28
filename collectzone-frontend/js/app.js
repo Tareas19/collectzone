@@ -1,4 +1,4 @@
-// ===== USUARIO ACTUAL =====
+﻿// ===== USUARIO ACTUAL =====
 // Email exclusivo del superadministrador (root)
 const ROOT_EMAIL = "root@collectzone.com";
 
@@ -305,7 +305,7 @@ function crearTarjetaArticulo(art) {
         <div class="col-md-6 col-lg-4 mb-4 fade-in">
             <div class="articulo-card" style="cursor:pointer;" onclick="window.location.href='detalle-articulo.html?id=${art.id}'">
                 <div style="position:relative;">
-                    <img src="${imagen}" class="card-img-top" alt="${art.nombre}" style="height:220px; object-fit:cover;" onerror="this.src='https://via.placeholder.com/400x220?text=CollectZone'">
+                    <img src="${imagen}" class="card-img-top" alt="${art.nombre}" style="height:220px; object-fit:cover;" onerror="this.src='https://placehold.co/400x220?text=CollectZone'">
                     <div style="position:absolute; top:10px; right:10px;" onclick="event.stopPropagation();">${favBtn}</div>
                 </div>
                 <div class="card-body">
@@ -488,7 +488,7 @@ async function cargarDetalleArticulo() {
 
         container.innerHTML = `
             <div class="col-lg-6 fade-in">
-                <div class="detalle-imagen"><img src="${imagen}" alt="${art.nombre}" onerror="this.src='https://via.placeholder.com/600x400?text=CollectZone'"></div>
+                <div class="detalle-imagen"><img src="${imagen}" alt="${art.nombre}" onerror="this.src='https://placehold.co/600x400?text=CollectZone'"></div>
             </div>
             <div class="col-lg-6 slide-in-left">
                 <div class="detalle-info">
@@ -796,7 +796,7 @@ async function cargarCarrito() {
             const img = getImagenArticulo(art);
             container.innerHTML += `
                 <div class="d-flex align-items-center gap-3 p-3 mb-2 fade-in" style="background:var(--white);border-radius:12px;box-shadow:var(--card-shadow);">
-                    <img src="${img}" alt="${art.nombre}" style="width:80px;height:80px;object-fit:cover;border-radius:10px;" onerror="this.src='https://via.placeholder.com/80x80?text=CZ'">
+                    <img src="${img}" alt="${art.nombre}" style="width:80px;height:80px;object-fit:cover;border-radius:10px;" onerror="this.src='https://placehold.co/80x80?text=CZ'">
                     <div class="flex-grow-1">
                         <h6 class="fw-bold mb-1"><a href="detalle-articulo.html?id=${art.id}" class="text-decoration-none" style="color:var(--primary);">${art.nombre}</a></h6>
                         <span class="badge-categoria">${art.categoria}</span>
@@ -843,7 +843,7 @@ async function cargarHistorialCompras() {
             const img = getImagenArticulo(art);
             container.innerHTML += `
                 <div class="d-flex align-items-center gap-3 p-3 mb-2" style="background:var(--white);border-radius:12px;box-shadow:var(--card-shadow);">
-                    <img src="${img}" alt="${art.nombre}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;" onerror="this.src='https://via.placeholder.com/60x60?text=CZ'">
+                    <img src="${img}" alt="${art.nombre}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;" onerror="this.src='https://placehold.co/60x60?text=CZ'">
                     <div class="flex-grow-1"><h6 class="fw-bold mb-0" style="color:var(--primary);">${art.nombre}</h6><small class="text-muted"><i class="fas fa-calendar me-1"></i>${fecha}</small></div>
                     <span class="precio">${c.precioCompra.toFixed(2)} EUR</span>
                 </div>`;
@@ -875,7 +875,7 @@ async function proponerIntercambio(articuloDeseadoId) {
             const img = getImagenArticulo(art);
             modalHTML += `
                 <div class="d-flex align-items-center gap-3 p-2 mb-2 rounded" style="border:2px solid var(--gray-light);cursor:pointer;" onclick="seleccionarArticuloIntercambio(${articuloDeseadoId}, ${art.id}, this)">
-                    <img src="${img}" style="width:50px;height:50px;object-fit:cover;border-radius:8px;" onerror="this.src='https://via.placeholder.com/50x50?text=CZ'">
+                    <img src="${img}" style="width:50px;height:50px;object-fit:cover;border-radius:8px;" onerror="this.src='https://placehold.co/50x50?text=CZ'">
                     <div class="flex-grow-1"><strong style="color:var(--primary);">${art.nombre}</strong><br><small class="text-muted">${art.categoria} - ${art.precio.toFixed(2)} EUR</small></div>
                     <i class="fas fa-arrow-right" style="color:var(--gray);"></i>
                 </div>`;

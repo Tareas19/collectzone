@@ -1,4 +1,4 @@
-📄 carrito.html
+﻿ðŸ“„ carrito.html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -147,7 +147,7 @@
                         <div class="auth-card mb-3 fade-in">
                             <div class="row g-3 align-items-center">
                                 <div class="col-md-3">
-                                    <img src="${a.imagenUrl || 'https://via.placeholder.com/150'}" class="img-fluid" style="border-radius:10px;" alt="${a.nombre}">
+                                    <img src="${a.imagenUrl || 'https://placehold.co/150'}" class="img-fluid" style="border-radius:10px;" alt="${a.nombre}">
                                 </div>
                                 <div class="col-md-6">
                                     <span class="badge-categoria mb-2 d-inline-block">${a.categoria}</span>
@@ -182,7 +182,7 @@
                     const fecha = c.fechaCompra ? new Date(c.fechaCompra).toLocaleDateString('es-ES') : '-';
                     return `
                         <div class="d-flex gap-2 align-items-center mb-2 p-2" style="background:var(--light); border-radius:8px;">
-                            <img src="${a.imagenUrl || 'https://via.placeholder.com/50'}" style="width:45px; height:45px; border-radius:6px; object-fit:cover;">
+                            <img src="${a.imagenUrl || 'https://placehold.co/50'}" style="width:45px; height:45px; border-radius:6px; object-fit:cover;">
                             <div class="flex-grow-1">
                                 <small class="fw-bold d-block">${a.nombre || 'Articulo'}</small>
                                 <small class="text-muted">${fecha} - ${c.precioCompra || a.precio} EUR</small>

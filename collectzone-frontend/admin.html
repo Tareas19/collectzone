@@ -1,4 +1,4 @@
-
+﻿
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -108,7 +108,7 @@
             <h1 style="color:var(--dark-text); font-weight:900; font-size:2.6rem; letter-spacing:-1px; margin:0 0 6px 0;">
                 <i class="fas fa-shield-halved me-2" style="color:var(--accent);"></i>Panel <em style="font-style:normal; color:var(--accent);">Admin</em>
             </h1>
-            <p style="color:var(--gray); margin:0;">Gestiona usuarios, contenido y estadísticas de la plataforma</p>
+            <p style="color:var(--gray); margin:0;">Gestiona usuarios, contenido y estadÃ­sticas de la plataforma</p>
         </div>
     </section>
 
@@ -117,7 +117,7 @@
         <div class="container">
             <div class="row g-3">
                 <div class="col-6 col-md-3"><div class="stat-tile"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-value" id="totalUsuarios">0</div><div class="stat-label">Usuarios</div></div></div>
-                <div class="col-6 col-md-3"><div class="stat-tile"><div class="stat-icon"><i class="fas fa-box"></i></div><div class="stat-value" id="totalArticulos">0</div><div class="stat-label">Artículos</div></div></div>
+                <div class="col-6 col-md-3"><div class="stat-tile"><div class="stat-icon"><i class="fas fa-box"></i></div><div class="stat-value" id="totalArticulos">0</div><div class="stat-label">ArtÃ­culos</div></div></div>
                 <div class="col-6 col-md-3"><div class="stat-tile"><div class="stat-icon"><i class="fas fa-tag"></i></div><div class="stat-value" id="totalVendidos">0</div><div class="stat-label">Vendidos</div></div></div>
                 <div class="col-6 col-md-3"><div class="stat-tile"><div class="stat-icon"><i class="fas fa-exchange-alt"></i></div><div class="stat-value" id="totalIntercambios">0</div><div class="stat-label">Intercambios</div></div></div>
             </div>
@@ -128,10 +128,10 @@
     <section class="py-4" style="background: var(--primary);">
         <div class="container">
             <div class="row g-3">
-                <div class="col-lg-5"><div class="panel-card"><h5><i class="fas fa-chart-pie"></i> Distribución por categorías</h5><div class="chart-wrap"><canvas id="chartCategorias"></canvas></div></div></div>
-                <div class="col-lg-7"><div class="panel-card"><h5><i class="fas fa-chart-column"></i> Registros de usuarios (últimos 6 meses)</h5><div class="chart-wrap"><canvas id="chartUsuariosMes"></canvas></div></div></div>
-                <div class="col-lg-7"><div class="panel-card"><h5><i class="fas fa-chart-line"></i> Artículos por estado</h5><div class="chart-wrap"><canvas id="chartEstados"></canvas></div></div></div>
-                <div class="col-lg-5"><div class="panel-card"><h5><i class="fas fa-trophy"></i> Top 5 artículos más caros</h5><div id="topArticulos"></div></div></div>
+                <div class="col-lg-5"><div class="panel-card"><h5><i class="fas fa-chart-pie"></i> DistribuciÃ³n por categorÃ­as</h5><div class="chart-wrap"><canvas id="chartCategorias"></canvas></div></div></div>
+                <div class="col-lg-7"><div class="panel-card"><h5><i class="fas fa-chart-column"></i> Registros de usuarios (Ãºltimos 6 meses)</h5><div class="chart-wrap"><canvas id="chartUsuariosMes"></canvas></div></div></div>
+                <div class="col-lg-7"><div class="panel-card"><h5><i class="fas fa-chart-line"></i> ArtÃ­culos por estado</h5><div class="chart-wrap"><canvas id="chartEstados"></canvas></div></div></div>
+                <div class="col-lg-5"><div class="panel-card"><h5><i class="fas fa-trophy"></i> Top 5 artÃ­culos mÃ¡s caros</h5><div id="topArticulos"></div></div></div>
             </div>
         </div>
     </section>
@@ -141,7 +141,7 @@
         <div class="container">
             <ul class="nav nav-pills gap-2 mb-3" id="adminTabs">
                 <li class="nav-item"><button class="btn filtro-rapido active" onclick="showAdminTab('usuarios')" id="tab-usuarios"><i class="fas fa-users me-1"></i>Usuarios</button></li>
-                <li class="nav-item"><button class="btn filtro-rapido" onclick="showAdminTab('articulos')" id="tab-articulos"><i class="fas fa-box me-1"></i>Artículos</button></li>
+                <li class="nav-item"><button class="btn filtro-rapido" onclick="showAdminTab('articulos')" id="tab-articulos"><i class="fas fa-box me-1"></i>ArtÃ­culos</button></li>
             </ul>
 
             <div class="search-box">
@@ -157,10 +157,10 @@
     <footer class="footer">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center flex-wrap">
-                <p class="mb-0"><i class="fas fa-gem me-2"></i>CollectZone 2025 — Proyecto DAW</p>
+                <p class="mb-0"><i class="fas fa-gem me-2"></i>CollectZone 2025 â€” Proyecto DAW</p>
                 <div class="d-flex gap-3">
                     <a href="index.html" class="small">Inicio</a>
-                    <a href="articulos.html" class="small">Artículos</a>
+                    <a href="articulos.html" class="small">ArtÃ­culos</a>
                 </div>
             </div>
         </div>
@@ -272,7 +272,7 @@
             const ctx = document.getElementById('chartEstados').getContext('2d');
             chartEstadosInst = new Chart(ctx, {
                 type: 'line',
-                data: { labels: ['Disponibles', 'Intercambio', 'Vendidos'], datasets: [{ label: 'Artículos', data: [counts.DISPONIBLE, counts.INTERCAMBIO, counts.VENDIDO], borderColor: '#e50914', backgroundColor: 'rgba(229,9,20,0.12)', tension: 0.4, fill: true, pointBackgroundColor: '#fff', pointBorderColor: '#e50914', pointRadius: 5, pointHoverRadius: 7, borderWidth: 3 }] },
+                data: { labels: ['Disponibles', 'Intercambio', 'Vendidos'], datasets: [{ label: 'ArtÃ­culos', data: [counts.DISPONIBLE, counts.INTERCAMBIO, counts.VENDIDO], borderColor: '#e50914', backgroundColor: 'rgba(229,9,20,0.12)', tension: 0.4, fill: true, pointBackgroundColor: '#fff', pointBorderColor: '#e50914', pointRadius: 5, pointHoverRadius: 7, borderWidth: 3 }] },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: 'rgba(255,255,255,0.05)' } }, x: { grid: { display: false } } } }
             });
         }
@@ -280,7 +280,7 @@
         function renderTopArticulos() {
             const top = [...articulosData].sort((a, b) => (b.precio || 0) - (a.precio || 0)).slice(0, 5);
             const cont = document.getElementById('topArticulos');
-            if (!top.length) { cont.innerHTML = `<p style="color:var(--gray); text-align:center; padding:30px 0;">Sin artículos para mostrar</p>`; return; }
+            if (!top.length) { cont.innerHTML = `<p style="color:var(--gray); text-align:center; padding:30px 0;">Sin artÃ­culos para mostrar</p>`; return; }
             cont.innerHTML = top.map((a, i) => `
                 <div class="top-item">
                     <span class="top-pos">${i + 1}</span>
@@ -289,7 +289,7 @@
                         <div class="top-name">${a.nombre}</div>
                         <div class="top-cat">${a.categoria || ''}</div>
                     </div>
-                    <div class="top-price">${a.precio?.toFixed(2) ?? '0.00'} €</div>
+                    <div class="top-price">${a.precio?.toFixed(2) ?? '0.00'} â‚¬</div>
                 </div>
             `).join('');
         }
@@ -348,7 +348,7 @@
             cont.innerHTML = `
                 <div class="tabla-custom">
                     <table class="table table-hover mb-0">
-                        <thead><tr><th>ID</th><th>Artículo</th><th>Categoría</th><th>Precio</th><th>Estado</th><th>Vendedor</th><th class="text-end">Acciones</th></tr></thead>
+                        <thead><tr><th>ID</th><th>ArtÃ­culo</th><th>CategorÃ­a</th><th>Precio</th><th>Estado</th><th>Vendedor</th><th class="text-end">Acciones</th></tr></thead>
                         <tbody>
                             ${rows.map(a => `
                                 <tr>
@@ -372,20 +372,20 @@
         async function toggleRol(id) {
             const u = usuariosData.find(x => x.id === id);
             const nuevoRol = u.rol === "ADMIN" ? "USER" : "ADMIN";
-            if (!confirm(`¿Cambiar rol de ${u.nombre} a ${nuevoRol}?`)) return;
+            if (!confirm(`Â¿Cambiar rol de ${u.nombre} a ${nuevoRol}?`)) return;
             try { await UsuarioAPI.actualizar(id, { ...u, rol: nuevoRol }); await cargarTodo(); renderUsuarios(); }
             catch(e) { alert("Error: " + (e.message || "")); }
         }
 
         async function borrarUsuario(id) {
             const u = usuariosData.find(x => x.id === id);
-            if (!confirm(`¿Eliminar al usuario ${u.nombre}? Esto borrará todos sus datos.`)) return;
+            if (!confirm(`Â¿Eliminar al usuario ${u.nombre}? Esto borrarÃ¡ todos sus datos.`)) return;
             try { await UsuarioAPI.eliminar(id); await cargarTodo(); renderDashboards(); renderTopArticulos(); renderUsuarios(); }
-            catch(e) { alert("Error: " + (e.message || "Puede tener artículos asociados")); }
+            catch(e) { alert("Error: " + (e.message || "Puede tener artÃ­culos asociados")); }
         }
 
         async function borrarArticulo(id) {
-            if (!confirm("¿Eliminar este artículo?")) return;
+            if (!confirm("Â¿Eliminar este artÃ­culo?")) return;
             try { await ArticuloAPI.eliminar(id); await cargarTodo(); renderDashboards(); renderTopArticulos(); renderArticulos(); }
             catch(e) { alert("Error al eliminar"); }
         }
