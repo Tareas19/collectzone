@@ -3,7 +3,7 @@ package com.collectzone.model;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.EqualsAndHashCode;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDateTime;
 
 @Entity
